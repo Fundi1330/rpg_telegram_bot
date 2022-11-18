@@ -1,11 +1,24 @@
 from telegram.ext import *
+import json
 
-key = ''
+key = {}
 
-with open('config.ini', 'r') as file:
-    read = file.read()
+with open('config.json', 'r') as file:
+    read = json.load(file)
 
 key = read
-print(key)
+
 def start(update, context):
-    update.message
+    update.message.reply_text('Travel RPG Bot is a simple rpg bot')
+
+def main():
+    updater = Updater(key['key'], use_context = True)
+    dp = updater.dispatcher
+
+    dp.add_handler(CommandHandler('start', start))
+
+    updater.start_polling()
+    updater.idle()
+
+if __name__ == '__main__':
+    main()
