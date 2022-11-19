@@ -2,7 +2,6 @@ import random
 
 from telegram.ext import *
 import json
-from emoji import *
 
 key = {}
 
@@ -15,14 +14,10 @@ def start(update, context):
     update.message.reply_text('Travel RPG Bot is a simple rpg bot')
 
 
+stats = {'strenght': random.randint(1, 5), 'agility': random.randint(2, 7), 'endurance': random.randint(1,9)}
 
 def stat(update, context):
-
-       stats = emojize(":flexed_biceps: Сила:",random.randint(1,5),
-                             "\n:horse_racing: Спритність:",random.randint(2,7),
-                             "\n:shield: Витривалість:",random.randint(1,9),
-                      )
-       update.message.reply_text(f'Стати юзера: {stats}')
+       update.message.reply_text(f'Стати юзера: \n💪 Сила: {stats["strenght"]}, \n🏇 Спритність: {stats["agility"]}, \n🛡️ Витривалітсть: {stats["endurance"]}')
 
 
 
