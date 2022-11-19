@@ -42,27 +42,43 @@ def stat(update, context):
     #     else:
     #             update.message.reply_text("ви ввели не введіть число від 1 до 3")
     # return 'I do not understand you!'
-def sample_responses(input_text):
-    global stat_points
-    user_message = input_text
+def check_mess(update, context):
+    user_message = str(update.message.text).lower()
+    return user_message
     
-    if user_message == 1:
-        stats["strenght"] += 1
-        stat_points -= 1
-    elif user_message == 2:
-        stats["agility"] += 1
-        stat_points -= 1
-    elif user_message == 3:
-        stats["endurance"] += 1
-        stat_points -= 1
+# def sample_responses(input_text):
+#     global stat_points
+#     user_message = input_text
+#     if user_message == 1:
+#         stats["strenght"] += 1
+#         stat_points -= 1
+#     elif user_message == 2:
+#         stats["agility"] += 1
+#         stat_points -= 1
+#     elif user_message == 3:
+#         stats["endurance"] += 1
+#         stat_points -= 1
+
+def message(update, context):
+    global stat_points
+    mes = update.message.text
+    if stat_points > 0:
+        if mes == '1':
+            stats["strenght"] += 1
+            stat_points -= 1
+        elif mes == '2':
+            stats["agility"] += 1
+            stat_points -= 1
+        elif mes == '3':
+            stats["endurance"] += 1
+            stat_points -= 1
+    else:
+        update.message.reply_text('В тебе недостатньо скілл поінтів')
+    
 
 def add_points(update, context):
     if stat_points > 0:
-        update.message.reply_text('Яку з характеристик ти хочеш покращити? 1.Сила, 2.Спритність, 3.Витривалість')
-        text = str(update.message.text).lower()
-        if text == '/addpoint':
-            text = str(update.message.text).lower()
-        sample_responses(text)
+        context.bot.send_message(chat_id = update.effective_chat.id, text = 'Яку з характеристик ти хочеш покращити? 1.Сила, 2.Спритність, 3.Витривалість (Введи число)')
     else:
         update.message.reply_text('В тебе недостатньо скілл поінтів')
 
@@ -85,6 +101,7 @@ def main():
     dp.add_handler(CommandHandler('stat', stat))
     dp.add_handler(CommandHandler('help', help))
     dp.add_handler(CommandHandler('addpoints', add_points))
+    dp.add_handler(MessageHandler(filters = Filters.text, callback = message))
 
     dp.add_error_handler(error)
     updater.start_polling()
