@@ -32,6 +32,11 @@ def stat(update, context):
 def error(update, context):
     print(f'Update {update} caused error {context.error}')
 
+def help(update, context):
+    update.message.reply_text('''
+Привіт👋, це Travel RPG Bot🏞
+Якщо хочеш перевірити✅/додати➕ свої характеристики пропиши /stat
+''')
 
 def main():
     updater = Updater(key['key'], use_context = True)
@@ -39,6 +44,7 @@ def main():
 
     dp.add_handler(CommandHandler('start', start))
     dp.add_handler(CommandHandler('stat', stat))
+    dp.add_handler(CommandHandler('help', help))
 
     dp.add_error_handler(error)
     updater.start_polling()
