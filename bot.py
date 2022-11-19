@@ -1,7 +1,6 @@
-import random
-
 from telegram.ext import *
 import json
+import random
 
 key = {}
 
