@@ -16,12 +16,15 @@ def start(update, context):
 stats = {'strenght': random.randint(1, 5), 'agility': random.randint(2, 7), 'endurance': random.randint(1,9)}
 
 def stat(update, context):
-    name = update.message.from_user.first_name
+    name = update.message.from_user.username
     with open('db.json', 'r') as db:
-        info = db.read()
+        info = dict(db.read())
+
+    print(info)
+    
     for k, v in info:
         if k == name:
-            update.message.reply_text(f'Стати юзера: \n💪 Сила: {k["strenght"]}, \n🏇 Спритність: {k["agility"]}, \n🛡️ Витривалітсть: {k["endurance"]}')
+            update.message.reply_text(f'Стати юзера: \n💪 Сила: {v["strenght"]}, \n🏇 Спритність: {v["agility"]}, \n🛡️ Витривалітсть: {v["endurance"]}')
     
 
 
