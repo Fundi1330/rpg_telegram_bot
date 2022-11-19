@@ -1,10 +1,9 @@
 import random
 
-import emoji
 from telegram.ext import *
 import json
 from emoji import *
-from random import *
+
 key = {}
 
 with open('config.json', 'r') as file:
@@ -19,10 +18,10 @@ def start(update, context):
 
 def stat(update, context):
 
-       stats = emoji.emojize(":flexed_biceps: Сила:",random.randint(1,5),
+       stats = emojize(":flexed_biceps: Сила:",random.randint(1,5),
                              "\n:horse_racing: Спритність:",random.randint(2,7),
                              "\n:shield: Витривалість:",random.randint(1,9),
-                             )
+                      )
        update.message.reply_text(f'Стати юзера: {stats}')
 
 
