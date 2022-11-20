@@ -18,9 +18,29 @@ stat_points = 7
 energy = 100
 
 
+
+
 def stat(update, context):
-    update.message.reply_text(
-        f'Стати юзера: \n💪 Сила: {stats["strenght"]}, \n🏇 Спритність: {stats["agility"]}, \n🛡 Витривалітсть: {stats["endurance"]},\n Стат поінти:{stat_points}')
+    with open('db.json', 'r') as db:
+        info = json.load(db)
+
+    db = info
+    data = {}
+
+    name = update.message.from_user.username
+    local_stats = {}
+    stats = {'strenght': random.randint(1, 5), 'agility': random.randint(2, 7), 'endurance': random.randint(1, 9)}
+    for i in db:
+        if i == name:
+            for k in dict(db[i]):
+                local_stats[k] = db[i][k]
+            update.message.reply_text(f'Стати юзера: \n💪 Сила: {local_stats["strenght"]}, \n🏇 Спритність: {local_stats["agility"]}, \n🛡 Витривалітсть: {local_stats["endurance"]},\n Стат поінти:{stat_points}')
+        elif name not in db:
+            data[name] = stats
+            with open("db.json", "w") as outfile:
+                json.dump(data, outfile, indent = 4)
+            update.message.reply_text(f'Стати юзера: \n💪 Сила: {data["strenght"]}, \n🏇 Спритність: {data["agility"]}, \n🛡 Витривалітсть: {data["endurance"]},\n Стат поінти:{stat_points}')
+    
 
 
 
@@ -32,11 +52,13 @@ mountains = Goat, Trol, Lizzard
 
 mountain_monster = (random.choice(mountains))
 
-forest = "Орк", "Вовк", "Кабан"
 
 Ork = {"strength": 2, "agility": 4, "endurance": 12}
 Wolf = {"strength": 1, "agility": 1, "endurance": 2}
 Kaban = {"strength": 3, "agility": 4, "endurance": 1}
+
+forest = Ork, Wolf, Kaban
+
 forest_monster = (random.choice(forest))
 
 stats = {"strenght": random.randint(1, 5), "agility": random.randint(2, 7), "endurance": random.randint(1, 9)}
@@ -67,6 +89,7 @@ def message(update, context):
     # mountin_monster_strenght = mountain_monster["strenght"]
     # mountin_monster_endurance = mountain_monster["endurance"]
     mountain_monster_name = ''
+    forest_monster_name = ''
 
     if mountain_monster == Goat:
         mountain_monster_name = 'Козла'
@@ -75,15 +98,20 @@ def message(update, context):
     else:
         mountain_monster_name = 'Ящіра'
 
+    if forest_monster == Ork:
+        forest_monster_name = 'Орка'
+    elif forest_monster == Wolf:
+        forest_monster_name = 'Вовка'
+    else:
+        forest_monster_name = 'Кабана'
+
     if energy > 10:
         if mes == "гори":
             energy -= 15
-            mes2 = str(update.message.text).lower()
             update.message.reply_text(f"{name} ти натрапив на {mountain_monster_name}, хочеш втекти ?")
-            if mes2 == 'так':
+            if mes == 'так':
                 update.message.reply_text('Ти втік з гір')
-                return 'Ти втік з гір'
-            elif mes2 == 'ні' or 'гори':
+            elif mes == 'ні' or 'гори':
                 num = stats["agility"] // mountain_monster["agility"]
                 stats["strenght"] * num
                 mountain_monster["endurance"] - stats["strenght"]
@@ -102,11 +130,11 @@ def message(update, context):
             update.message.reply_text(f"{name} ти натрапив на {forest_monster}!")
             num = stats["agility"] // forest_monster["agility"]
             stats["strenght"] * num
-            forest_monster["endurancce"] -= stats["strenght"]
+            forest_monster["endurancce"] - stats["strenght"]
 
             num = forest_monster["agility"] // stats["agility"]
             stats["strenght"] * num
-            stats["endurance"] -= forest_monster["strenght"]
+            stats["endurance"] - forest_monster["strenght"]
 
             if stats['endurance'] == 0:
                 update.message.reply_text("Ви програли.")
