@@ -1,7 +1,8 @@
-{
-    "arahis1330": {
-        "strenght": 5,
-        "agility": 5,
-        "endurance": 2
+{"users":{
+    "Dymu_moi": {
+        "strenght": 4,
+        "agility": 2,
+        "endurance": 9
+        }
     }
 }
