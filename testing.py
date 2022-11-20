@@ -18,26 +18,28 @@ with open('db.json', 'r') as file:
 
 stat_points = 7
 energy = 100
+words = []
 
 def stat(update, context):
     name = update.message.from_user.username
     local_stats = {}
+    temporary_dict = {}
+
+    stats = {'strenght': random.randint(1, 5), 'agility': random.randint(2, 7),
+             'endurance': random.randint(1, 9)}
     for i in db:
         if i == name:
             for с in dict(db[i]):
                 local_stats[с] = db[i][с]
                 update.message.reply_text(
-                    f'Стати юзера: \n💪 Сила: {local_stats["strenght"]}, \n🏇 Спритність: {local_stats["agility"]},'
-                    f' \n🛡 Витривалітсть: {local_stats["endurance"]},\n Стат поінти:{stat_points}')
+                    f'Стати юзера: \n💪 Сила: {local_stats["strenght"]}, \n🏇 Спритність: {local_stats["agility"]}, \n🛡 Витривалітсть: {local_stats["endurance"]},\n Стат поінти:{stat_points}')
 
-        elif i != name:
-            stats = {'strenght': random.randint(1, 5), 'agility': random.randint(2, 7),
-                     'endurance': random.randint(1, 9)}
+        elif i not in db :
 
             update.message.reply_text(f'Стати юзера: \n💪 Сила: {stats["strenght"]}, '
                                       f'\n🏇 Спритність: {stats["agility"]}, \n🛡 Витривалітсть: {stats["endurance"]},'
                                       f'\n Стат поінти:{stat_points}')
-            temporary_dict = dict[name]=stats
+            temporary_dict[name] = stats
             json_object = json.dumps(local_stats, indent = 2)
             with open("db.json", "w") as outfile:
                 outfile.write(json_object)
@@ -66,6 +68,7 @@ stats = {"strenght": random.randint(1, 5), "agility": random.randint(2, 7), "end
 
 
 def message(update, context):
+    global  words
     global stat_points
     global energy
     name = update.message.from_user.username
@@ -100,14 +103,17 @@ def message(update, context):
         mountain_monster_name = 'Ящіра'
 
     if energy > 10:
+
         if mes == "гори":
             energy -= 15
-            mes2 = str(update.message.text).lower()
             update.message.reply_text(f"{name} ти натрапив на {mountain_monster_name}, хочеш втекти ?")
-            if mes2 == 'так':
+            while "так" not in words:
+                words.append(str(update.message.text).lower())
+                print(words)
+            if "так" in words:
                 update.message.reply_text('Ти втік з гір')
                 return 'Ти втік з гір'
-            elif mes2 == 'ні' or 'гори':
+            elif "ні" in words:
                 num = stats["agility"] // mountain_monster["agility"]
                 stats["strenght"] * num
                 mountain_monster["endurance"] - stats["strenght"]
@@ -120,6 +126,7 @@ def message(update, context):
                     update.message.reply_text("Ви програли.")
                 elif mountain_monster["endurance"] == 0:
                     update.message.reply_text("Ви виграли!")
+            words = []
         # ._.
 
         elif mes == "ліс":
