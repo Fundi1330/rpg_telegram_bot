@@ -27,9 +27,11 @@ def stat(update, context):
 
     db = info
     data = {}
+    sup = {}
 
     name = update.message.from_user.username
     local_stats = {}
+
     stats = {'name': name, 'strenght': random.randint(1, 5), 'agility': random.randint(2, 7), 'endurance': random.randint(1, 9)}
 
     for i in db['users']:
@@ -47,6 +49,22 @@ def stat(update, context):
             
     update.message.reply_text(f'Стати юзера: \n💪 Сила: {local_stats["strenght"]}, \n🏇 Спритність: {local_stats["agility"]}, \n🛡 Витривалітсть: {local_stats["endurance"]},\n Стат поінти:{stat_points}')
     
+    stats = {'strenght': random.randint(1, 5), 'agility': random.randint(2, 7), 'endurance': random.randint(1, 9)}
+
+    for i in db:
+        for b in i:
+            if b == name:
+                for k in dict(db[b]):
+                    local_stats[k] = db[b][k]
+                update.message.reply_text(f'Стати @{name}: \n💪 Сила: {local_stats["strenght"]}, \n🏇 Спритність: {local_stats["agility"]}, \n🛡 Витривалітсть: {local_stats["endurance"]},\n 🌟Стат поінти:{stat_points}')
+            elif name not in db:
+                sup.update({name: stats})
+                data.update({"users":sup})
+                update.message.reply_text(f'Стати @{name}: \n💪 Сила: {data["strenght"]}, \n🏇 Спритність: {data["agility"]}, \n🛡 Витривалітсть: {data["endurance"]},\n🌟 Стат поінти:{stat_points}')
+                with open("db.json", "w") as outfile:
+                    json.dump(data, outfile, indent=4,)
+# я ще в школі варіант з гет і нон попробую ._.
+
 
 
 
@@ -177,7 +195,10 @@ def error(update, context):
 def help(update, context):
     update.message.reply_text('''
 Привіт👋, це Travel RPG Bot🏞
-Якщо хочеш перевірити✅/додати➕ свої характеристики пропиши /stat
+\nЯкщо хочеш перевірити✅ свої характеристики пропиши /stat
+\n Якщо хочеш додати➕ поінти до характеристик тоді пропиши /addpoints
+\n Щоб розпочати свою подорож🚊 пропиши /location
+\n Щоб дізнатися трохи більше😎 пропиши /start 
 ''')
 
 
