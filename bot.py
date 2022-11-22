@@ -1,4 +1,5 @@
 from telegram.ext import *
+from telegram import *
 import json
 import random
 
@@ -29,17 +30,22 @@ def stat(update, context):
 
     name = update.message.from_user.username
     local_stats = {}
-    stats = {'strenght': random.randint(1, 5), 'agility': random.randint(2, 7), 'endurance': random.randint(1, 9)}
-    for i in db:
-        if i == name:
-            for k in dict(db[i]):
-                local_stats[k] = db[i][k]
-            update.message.reply_text(f'Стати юзера: \n💪 Сила: {local_stats["strenght"]}, \n🏇 Спритність: {local_stats["agility"]}, \n🛡 Витривалітсть: {local_stats["endurance"]},\n Стат поінти:{stat_points}')
+    stats = {'name': name, 'strenght': random.randint(1, 5), 'agility': random.randint(2, 7), 'endurance': random.randint(1, 9)}
+
+    for i in db['users']:
+        if i['name'] == name:
+            for k in i:
+                local_stats[k] = i[k]
+                # local_stats[k] = db['users']
         elif name not in db:
-            data[name] = stats
-            with open("db.json", "w") as outfile:
-                json.dump(data, outfile, indent = 4)
-            update.message.reply_text(f'Стати юзера: \n💪 Сила: {data["strenght"]}, \n🏇 Спритність: {data["agility"]}, \n🛡 Витривалітсть: {data["endurance"]},\n Стат поінти:{stat_points}')
+            with open('db.json') as f:
+                data = json.load(f)
+                data['users'].append(stats)
+                with open('db.json', 'w') as outfile:
+                    json.dump(data, outfile)
+                
+            
+    update.message.reply_text(f'Стати юзера: \n💪 Сила: {local_stats["strenght"]}, \n🏇 Спритність: {local_stats["agility"]}, \n🛡 Витривалітсть: {local_stats["endurance"]},\n Стат поінти:{stat_points}')
     
 
 
@@ -62,10 +68,28 @@ forest = Ork, Wolf, Kaban
 forest_monster = (random.choice(forest))
 
 stats = {"strenght": random.randint(1, 5), "agility": random.randint(2, 7), "endurance": random.randint(1, 9)}
+mountain_monster_name = ''
+forest_monster_name = ''
+
+if mountain_monster == Goat:
+    mountain_monster_name = 'Козла'
+elif mountain_monster_name == Trol:
+    mountain_monster_name = 'Троля'
+else:
+    mountain_monster_name = 'Ящіра'
+
+if forest_monster == Ork:
+    forest_monster_name = 'Орка'
+elif forest_monster == Wolf:
+    forest_monster_name = 'Вовка'
+else:
+    forest_monster_name = 'Кабана'
+
 
 def message(update, context):
     global stat_points
     global energy
+    global yes
     name = update.message.from_user.username
     mes = str(update.message.text).lower()
     if stat_points > 0:
@@ -88,30 +112,18 @@ def message(update, context):
     # mountin_monster_agility = mountain_monster["agility"]
     # mountin_monster_strenght = mountain_monster["strenght"]
     # mountin_monster_endurance = mountain_monster["endurance"]
-    mountain_monster_name = ''
-    forest_monster_name = ''
-
-    if mountain_monster == Goat:
-        mountain_monster_name = 'Козла'
-    elif mountain_monster_name == Trol:
-        mountain_monster_name = 'Троля'
-    else:
-        mountain_monster_name = 'Ящіра'
-
-    if forest_monster == Ork:
-        forest_monster_name = 'Орка'
-    elif forest_monster == Wolf:
-        forest_monster_name = 'Вовка'
-    else:
-        forest_monster_name = 'Кабана'
+    
 
     if energy > 10:
         if mes == "гори":
             energy -= 15
             update.message.reply_text(f"{name} ти натрапив на {mountain_monster_name}, хочеш втекти ?")
+            while mes != 'так' or mes != 'ні':
+                mes = update.message.text
             if mes == 'так':
                 update.message.reply_text('Ти втік з гір')
-            elif mes == 'ні' or 'гори':
+                return 'Ти втік з гір'
+            elif mes == 'ні':
                 num = stats["agility"] // mountain_monster["agility"]
                 stats["strenght"] * num
                 mountain_monster["endurance"] - stats["strenght"]
