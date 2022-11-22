@@ -19,7 +19,7 @@ energy = 100
 
 
 def stat(update, context):
-    with open('db.json') as f:
+    with open('db2.json') as f:
         data = json.load(f)
     name = update.message.from_user.username
     local_stats = {}
@@ -35,11 +35,14 @@ def stat(update, context):
                 numero = str(norm_num)
 
                 data["users"][numero] = {name: True}
-                with open("db.json", "w") as f:
+                with open("db2.json", "w") as f:
                     json.dump(data, f, indent=4)
+                    update.message.reply_text(
+                    f'Стати @{name}: \n💪 Сила: {local_stats["strenght"]}, \n🏇 Спритність: {local_stats["agility"]}, \n🛡 Витривалітсть: {local_stats["endurance"]},\n 🌟Стат поінти:{stat_points}')
             else:
                 for a in b:
-                    local_stats[name] = a
+                    local_stats[a] = b[a]
+                    update.message.reply_text(f'Стати @{name}: \n💪 Сила: {local_stats["strenght"]}, \n🏇 Спритність: {local_stats["agility"]}, \n🛡 Витривалітсть: {local_stats["endurance"]},\n 🌟Стат поінти:{stat_points}')
 
     #
     # db = info
