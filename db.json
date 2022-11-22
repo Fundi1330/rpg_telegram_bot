@@ -1,8 +1,26 @@
-{"users":{
-    "Dymu_moi": {
-        "strenght": 4,
-        "agility": 2,
-        "endurance": 9
+{
+    "users": {
+        "1": {
+            "Dymu_moi": {
+                "strenght": 4,
+                "agility": 2,
+                "endurance": 9
+            }
+        },
+        "2": {
+            "Dymu_moi": true
+        },
+        "3": {
+            "Dymu_moi": true
+        },
+        "4": {
+            "Dymu_moi": true
+        },
+        "5": {
+            "Dymu_moi": true
+        },
+        "6": {
+            "Dymu_moi": true
         }
     }
 }

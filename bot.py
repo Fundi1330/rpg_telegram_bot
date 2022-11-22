@@ -21,29 +21,50 @@ energy = 100
 
 
 def stat(update, context):
-    with open('db.json', 'r') as db:
-        info = json.load(db)
-
-    db = info
-    data = {}
-    sup = {}
-
+    with open('db.json') as f:
+        data = json.load(f)
     name = update.message.from_user.username
-    local_stats = {}
-    stats = {'strenght': random.randint(1, 5), 'agility': random.randint(2, 7), 'endurance': random.randint(1, 9)}
-
-    for i in db:
+    local_stats= {}
+    for i in data["users"]:
         for b in i:
-            if b == name:
-                for k in dict(db[b]):
-                    local_stats[k] = db[b][k]
-                update.message.reply_text(f'Стати @{name}: \n💪 Сила: {local_stats["strenght"]}, \n🏇 Спритність: {local_stats["agility"]}, \n🛡 Витривалітсть: {local_stats["endurance"]},\n 🌟Стат поінти:{stat_points}')
-            elif name not in db:
-                sup.update({name: stats})
-                data.update({"users":sup})
-                update.message.reply_text(f'Стати @{name}: \n💪 Сила: {data["strenght"]}, \n🏇 Спритність: {data["agility"]}, \n🛡 Витривалітсть: {data["endurance"]},\n🌟 Стат поінти:{stat_points}')
-                with open("db.json", "w") as outfile:
-                    json.dump(data, outfile, indent=4,)
+            if name is None:
+                num_lib = []
+                for v in data["users"]:
+                    num_lib+= v
+                biggest_num = max(num_lib)
+                print(biggest_num)
+                norm_num = (int(biggest_num))+1
+                numero = str(norm_num)
+
+                data["users"][numero] = {name: True}
+                with open("db.json", "w") as f:
+                    json.dump(data, f, indent=4)
+            else:
+                for a in b:
+                    local_stats[name] = a
+
+
+    #
+    # db = info
+    # data = {}
+    # sup = {}
+    #
+    # name = update.message.from_user.username
+    # local_stats = {}
+    # stats = {'strenght': random.randint(1, 5), 'agility': random.randint(2, 7), 'endurance': random.randint(1, 9)}
+    #
+    # for i in db:
+    #     for b in i:
+    #         if b == name:
+    #             for k in dict(db[b]):
+    #                 local_stats[k] = db[b][k]
+    #             update.message.reply_text(f'Стати @{name}: \n💪 Сила: {local_stats["strenght"]}, \n🏇 Спритність: {local_stats["agility"]}, \n🛡 Витривалітсть: {local_stats["endurance"]},\n 🌟Стат поінти:{stat_points}')
+    #         elif name not in db:
+    #             sup.update({name: stats})
+    #             data.update({"users":sup})
+    #             update.message.reply_text(f'Стати @{name}: \n💪 Сила: {data["strenght"]}, \n🏇 Спритність: {data["agility"]}, \n🛡 Витривалітсть: {data["endurance"]},\n🌟 Стат поінти:{stat_points}')
+    #             with open("db.json", "w") as outfile:
+    #                 json.dump(data, outfile, indent=4,)
 # я ще в школі варіант з гет і нон попробую ._.
 
 
