@@ -36,14 +36,14 @@
 
 # for k, v in info:
 #     if k == name:
-#         update.message.reply_text(f'Стати юзера: \n💪 Сила: {v["strenght"]}, \n🏇 Спритність: {v["agility"]}, \n🛡️ Витривалітсть: {v["endurance"]}')
+#         update.message.reply_text(f'Стати юзера: \n💪 Сила: {v["strength"]}, \n🏇 Спритність: {v["agility"]}, \n🛡️ Витривалітсть: {v["endurance"]}')
 # if stat_points > 0:
 #     update.message.reply_text("У тебе є вільні стат поінти, хочеш їх використати?")
 #     user_message = str(text).lower()
 #     if user_message in ('так', 'ага'):
 #         update.message.reply_text("Що ви хочете підвищити? Введіть номер: 1.Сила, 2.Спритність, 3.Витривалість")
 #     if user_message == 1:
-#             stats["strenght"] += 1
+#             stats["strength"] += 1
 #     elif user_message == 2:
 #             stats["agility"] += 1
 #     elif user_message == 3:
@@ -57,7 +57,7 @@
 #     global stat_points
 #     user_message = input_text
 #     if user_message == 1:
-#         stats["strenght"] += 1
+#         stats["strength"] += 1
 #         stat_points -= 1
 #     elif user_message == 2:
 #         stats["agility"] += 1
@@ -77,12 +77,12 @@
 #     #         update.message.reply_text(f"{name} ти натрапив на {mountain_monster}, хочеш втекти ?")
 
 #     #         num = stats["agility"] // mountain_monster["agility"]
-#     #         stats['strenght'] * num
-#     #         mountain_monster["endurancce"] -= stats["strenght"]
+#     #         stats['strength'] * num
+#     #         mountain_monster["endurancce"] -= stats["strength"]
 
 #     #         num = mountain_monster["agility"] // stats["agility"]
-#     #         stats["strenght"] * num
-#     #         stats["endurance"] -= mountain_monster["strenght"]
+#     #         stats["strength"] * num
+#     #         stats["endurance"] -= mountain_monster["strength"]
 
 #     #         if stats['endurance'] == 0:
 #     #             update.message.reply_text("Ви програли.")
@@ -93,12 +93,12 @@
 #     #     elif mes2 == "ліс":
 #     #         update.message.reply_text(f"{name} ти натрапив на {forest_monster}!")
 #     #         num = stats["agility"] // forest_monster["agility"]
-#     #         stats['strenght'] * num
-#     #         forest_monster["endurancce"] -= stats["strenght"]
+#     #         stats['strength'] * num
+#     #         forest_monster["endurancce"] -= stats["strength"]
 
 #     #         num = forest_monster["agility"] // stats["agility"]
-#     #         stats["strenght"] * num
-#     #         stats["endurance"] -= forest_monster["strenght"]
+#     #         stats["strength"] * num
+#     #         stats["endurance"] -= forest_monster["strength"]
 
 #     #         if stats['endurance'] == 0:
 #     #             update.message.reply_text("Ви програли.")
