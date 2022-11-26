@@ -1,6 +1,7 @@
 from telegram.ext import *
 import json
 import random
+from telegram import *
 
 key = {}
 
@@ -23,7 +24,7 @@ def start(update, context):
 
 
 stat_points = 7
-energy = 100 
+energy = 100
 
 
 
@@ -48,7 +49,7 @@ def stat(update, context):
     with open('db.json') as f:
         data = json.load(f)
     name = update.message.from_user.username
-    local_stats= {}
+    local_stats = {}
     for i in data["users"]:
         for b in i:
             if name is None:
@@ -57,7 +58,7 @@ def stat(update, context):
                     num_lib+= v
                 biggest_num = max(num_lib)
                 print(biggest_num)
-                norm_num = (int(biggest_num))+1
+                norm_num = (int(biggest_num)) + 1
                 numero = str(norm_num)
 
                 data["users"][numero] = {name: True}
@@ -133,10 +134,12 @@ else:
 
 
 stats = {"strenght": random.randint(1, 5), "agility": random.randint(2, 7), "endurance": random.randint(1, 9)}
+yes_list = []
 
 def message(update, context):
     global stat_points
     global energy
+    global yes_list
     name = update.message.from_user.username
     mes = str(update.message.text).lower()
     # if stat_points > 0:
@@ -177,57 +180,52 @@ def message(update, context):
         forest_monster_name = 'Кабана'
 
 
-    # if energy > 10:
-    #     if mes == "гори":
-    #         energy -= 15
-    #         update.message.reply_text(f"{name} ти натрапив на {mountain_monster_name}, хочеш втекти ?")
-    #         while mes != 'так' or mes != 'ні':
-    #             mes = update.message.text
-    #         if mes == 'так':
-    #             update.message.reply_text('Ти втік з гір')
-    #             return 'Ти втік з гір'
-    #         # elif mes == 'ні':
-    #         #     num = stats["agility"] // mountain_monster["agility"]
-    #         #     stats["strenght"] * num
-    #         #     mountain_monster["endurance"] - stats["strenght"]
     if energy > 10:
         if mes == "гори":
             energy -= 15
             update.message.reply_text(f"{name} ти натрапив на {mountain_monster_name}, хочеш втекти ?")
-            if mes == 'так':
+
+            if update.message.text != 'гори':
+                yes_list.append(update.message.text)
+
+            if update.message.text not in yes_list:
+                yes_list.append(update.message.text)
+
+            if 'так' in yes_list: 
                 update.message.reply_text('Ти втік з гір')
-            elif mes == 'ні' or 'гори':
+            elif 'ні' in yes_list:
+                update.message.reply_text('Ти почав бій!')
                 num = stats["agility"] // mountain_monster["agility"]
                 stats["strenght"] * num
                 mountain_monster["endurance"] - stats["strenght"]
 
-    #         #     num = mountain_monster["agility"] // stats["agility"]
-    #         #     stats["strenght"] * num
-    #         #     stats["endurance"] - mountain_monster["strenght"]
+                num = mountain_monster["agility"] // stats["agility"]
+                stats["strenght"] * num
+                stats["endurance"] - mountain_monster["strenght"]
 
-    #         #     if stats["endurance"] >= 0:
-    #         #         update.message.reply_text("Ви програли.")
-    #         #     elif mountain_monster["endurance"] == 0:
-    #         #         update.message.reply_text("Ви виграли!")
-    #     # ._.
+                if stats["endurance"] >= 0:
+                    update.message.reply_text("Ви програли.")
+                elif mountain_monster["endurance"] == 0:
+                    update.message.reply_text("Ви виграли!")
+        # ._.
 
-    #     elif mes == "ліс":
-    #         update.message.reply_text(f"{name} ти натрапив на {forest_monster}!")
-    #         num = stats["agility"] // forest_monster["agility"]
-    #         stats["strenght"] * num
-    #         forest_monster["endurancce"] - stats["strenght"]
+        elif mes == "ліс":
+            update.message.reply_text(f"{name} ти натрапив на {forest_monster_name}!")
+            num = stats["agility"] // forest_monster["agility"]
+            stats["strenght"] * num
+            forest_monster["endurancce"] - stats["strenght"]
 
-    #         num = forest_monster["agility"] // stats["agility"]
-    #         stats["strenght"] * num
-    #         stats["endurance"] - forest_monster["strenght"]
+            num = forest_monster["agility"] // stats["agility"]
+            stats["strenght"] * num
+            stats["endurance"] - forest_monster["strenght"]
 
-    #         if stats['endurance'] == 0:
-    #             update.message.reply_text("Ви програли.")
-    #         elif forest_monster['endurance'] == 0:
-    #             update.message.reply_text("Ви виграли!")
-    #     # ._.
-    # else:
-    #     update.message.reply_text('У вас недостатньо енергії')
+            if stats['endurance'] == 0:
+                update.message.reply_text("Ви програли.")
+            elif forest_monster['endurance'] == 0:
+                update.message.reply_text("Ви виграли!")
+        # ._.
+    else:
+        update.message.reply_text('У вас недостатньо енергії')
 
 
 def add_points(update, context):
@@ -241,7 +239,14 @@ def add_points(update, context):
 def location(update, context):
     update.message.reply_text('Куди ви хочете піти подорожувати сьогодні? Ліс/Гори')
 
-
+def music(update, context):
+    buttons = [
+        [
+            InlineKeyboardButton('Skyrim')
+        ]
+    ]
+    markup = InlineKeyboardMarkup(buttons)
+    update.message.reply_text('Вибери музику, яку хочеш слухати', reply_markup = markup)
 
 def error(update, context):
     print(f'Update {update} caused error {context.error}')
@@ -251,9 +256,9 @@ def help(update, context):
     update.message.reply_text('''
 Привіт👋, це Travel RPG Bot🏞
 \nЯкщо хочеш перевірити✅ свої характеристики пропиши /stat
-\n Якщо хочеш додати➕ поінти до характеристик тоді пропиши /addpoints
-\n Щоб розпочати свою подорож🚊 пропиши /location
-\n Щоб дізнатися трохи більше😎 пропиши /start 
+\nЯкщо хочеш додати➕ поінти до характеристик тоді пропиши /addpoints
+\nЩоб розпочати свою подорож🚊 пропиши /location
+\nЩоб дізнатися трохи більше😎 пропиши /start 
 ''')
 
 
@@ -267,6 +272,7 @@ def main():
     dp.add_handler(CommandHandler('help', help))
     dp.add_handler(CommandHandler('addpoints', add_points))
     dp.add_handler(CommandHandler('location', location))
+    dp.add_handler(CommandHandler('music', music))
     dp.add_handler(MessageHandler(filters=Filters.text, callback = message))
 
     dp.add_error_handler(error)
