@@ -21,14 +21,25 @@ def start(update, context):
         data['users'].append(stats)
         with open('db.json', 'w') as outfile:
             json.dump(data, outfile)
-            image_list = [r"C:\Users\User\Pictures\Saved Pictures\11be28554f62ceabb2eb77ab51a32aeb.jpg",
-                          r"C:\Users\User\Pictures\Saved Pictures\0x0.jpg",
-                          r"C:\Users\User\Pictures\Saved Pictures\завантаження.jpg",
-                          r"C:\Users\User\Pictures\Saved Pictures\where-to-travel-in-2022-1640200544.jpg",
-                          r"C:\Users\User\Pictures\Saved Pictures\photo-1511117833895-4b473c0b85d6.jpg"]
-            random_img = random.randint(image_list)
-            update.message.reply_photo(
-                photo=open(random_img, "rb"))
+            random_img = random.randint(1,2)
+            if random_img == 1:
+                random_img1 = random.randint(1,2)
+                if random_img1 ==1:
+                    update.message.reply_photo(
+                    photo=open(r"C:\Users\User\Pictures\Saved Pictures\photo-1511117833895-4b473c0b85d6.jpg", "rb"))
+                else:
+                    update.message.reply_photo(
+                    photo=open(r"C:\Users\User\Pictures\Saved Pictures\Plane-taking-off-twilight-1024x684.jpg", "rb"))
+            else:
+                random_img2 = random.randint(1, 2)
+                if random_img2 ==1:
+                    update.message.reply_photo(
+                        photo=open(r"C:\Users\User\Pictures\Saved Pictures\0x0.jpg", "rb"))
+                else:
+                    update.message.reply_photo(
+                        photo=open(r"C:\Users\User\Pictures\Saved Pictures\ss_2ecaeff42c548d1200668869a8767.jpg",
+                                   "rb"))
+
 
 
 stat_points = 7
