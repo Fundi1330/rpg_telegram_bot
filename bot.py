@@ -449,6 +449,77 @@ def callback(update, context):
         query.message.reply_voice(bw)
     # update.message.reply_text('hello11deadaf')
 
+    def build_menu(buttons, n_cols, header_buttons=None, footer_buttons=None):
+
+        menu = [buttons[i:i + n_cols] for i in range(0, len(buttons), n_cols)]
+        if header_buttons:
+            menu.insert(0, header_buttons)
+        if footer_buttons:
+            menu.append(footer_buttons)
+        return menu
+
+    if energy > 10:
+        button_list = []
+        lis_horu = ["ліс", "гори"]
+
+        for i in lis_horu:
+            button_list.append(InlineKeyboardButton(i, callback_data=i))
+            reply_markup = InlineKeyboardMarkup(
+                build_menu(button_list, n_cols=1))  # n_cols = 1 is for single column and mutliple rows
+        update.message.reply_text('Куди ви хочете піти подорожувати сьогодні? ', reply_markup=reply_markup)
+
+    def build_menu(buttons, n_cols, header_buttons=None, footer_buttons=None):
+
+        menu = [buttons[i:i + n_cols] for i in range(0, len(buttons), n_cols)]
+        if header_buttons:
+            menu.insert(0, header_buttons)
+        if footer_buttons:
+            menu.append(footer_buttons)
+        return menu
+
+    if energy > 10:
+        button_list = []
+        lis_horu = ["ліс", "гори"]
+
+        for i in lis_horu:
+            button_list.append(InlineKeyboardButton(i, callback_data=i))
+            reply_markup = InlineKeyboardMarkup(
+                build_menu(button_list, n_cols=1))  # n_cols = 1 is for single column and mutliple rows
+        update.message.reply_text('Куди ви хочете піти подорожувати сьогодні? ', reply_markup=reply_markup)
+
+    # def build_menu(buttons, n_cols, header_buttons=None, footer_buttons=None):
+    #
+    #     menu = [buttons[i:i + n_cols] for i in range(0, len(buttons), n_cols)]
+    #     if header_buttons:
+    #         menu.insert(0, header_buttons)
+    #     if footer_buttons:
+    #         menu.append(footer_buttons)
+    #     return menu
+
+    # def callback_handler_Parara(update, context):
+    #     global energy
+    #     button_list = []
+    #     handler = update.callback_query
+    #     answer = handler.data
+    #     if answer == "гори":
+    #         print("ти вибрав гори")
+    #         yes_no = ["так", "ні"]
+    #         for b in yes_no:
+    #             print(type(b))
+    #             name = handler.message.from_user.username
+    #             button_list.append(InlineKeyboardButton(b, callback_data=b))
+    #             print(button_list)
+    #             reply_markup = InlineKeyboardMarkup(
+    #                 str(button_list))  # n_cols = 1 is for single column and mutliple rows
+    #         energy -= 15
+    #         handler.message.reply_text(f"{name} ти натрапив на {mountain_monster_name}, хочеш втекти ?",
+    #                                    reply_markup=reply_markup)
+    #         if answer == 'так':
+    #             handler.message.reply_text('Ти втік з гір')
+    #         elif answer == 'ні':
+    #             print("дойшло до цього ні")
+
+
 def error(update, context):
     print(f'Update {update} caused error {context.error}')
 
@@ -475,6 +546,7 @@ def main():
     dp.add_handler(CommandHandler('location', location))
     dp.add_handler(CommandHandler('music', music))
     dp.add_handler(MessageHandler(filters=Filters.text, callback = message))
+    #dp.add_handler(CallbackQueryHandler(callback_handler_Parara))
 
     dp.add_handler(CallbackQueryHandler(callback))
 
