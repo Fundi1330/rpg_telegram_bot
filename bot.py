@@ -17,17 +17,22 @@ def start(update, context):
     update.message.reply_text('Travel RPG Bot is a simple rpg bot')
 
     with open('db.json') as f:
-                data = json.load(f)
-                data['users'].append(stats)
-                with open('db.json', 'w') as outfile:
-                    json.dump(data, outfile)
+        data = json.load(f)
+        data['users'].append(stats)
+        with open('db.json', 'w') as outfile:
+            json.dump(data, outfile)
+            image_list = [r"C:\Users\User\Pictures\Saved Pictures\11be28554f62ceabb2eb77ab51a32aeb.jpg",
+                          r"C:\Users\User\Pictures\Saved Pictures\0x0.jpg",
+                          r"C:\Users\User\Pictures\Saved Pictures\завантаження.jpg",
+                          r"C:\Users\User\Pictures\Saved Pictures\where-to-travel-in-2022-1640200544.jpg",
+                          r"C:\Users\User\Pictures\Saved Pictures\photo-1511117833895-4b473c0b85d6.jpg"]
+            random_img = random.randint(image_list)
+            update.message.reply_photo(
+                photo=open(random_img, "rb"))
 
 
 stat_points = 7
 energy = 100
-
-
-
 
 def stat(update, context):
     with open('db.json', 'r') as db:
@@ -112,6 +117,7 @@ forest = Ork, Wolf, Kaban
 
 forest_monster = (random.choice(forest))
 
+
 end_battle = False
 
 mountain_monster_name = ''
@@ -119,7 +125,7 @@ forest_monster_name = ''
 
 if mountain_monster == Goat:
     mountain_monster_name = 'Козла'
-elif mountain_monster_name == Trol:
+elif mountain_monster == Trol:
     mountain_monster_name = 'Троля'
 else:
     mountain_monster_name = 'Ящіра'
@@ -137,18 +143,20 @@ yes_list = []
 user_move = True
 user_health = 40
 
+potion = 2
+
 def message(update, context):
     global stat_points
     global energy
     global user_move, user_health
     global yes_list
     global mountain_monster, mountain_monster_name, forest_monster, forest_monster_name
-    name = update.message.from_user.username
     mes = str(update.message.text).lower()
     name = update.message.from_user.username
     local_stats = {}
-    forest_monster = random.choice(forest)
-    mountain_monster = random.choice(mountains)
+    #forest_monster = random.choice(forest)
+    #mountain_monster = random.choice(mountains)
+
     # if stat_points > 0:
     #     # if mes == '1':
     #     #     stats["strength"] += 1
@@ -169,7 +177,7 @@ def message(update, context):
     # mountin_monster_agility = mountain_monster["agility"]
     # mountin_monster_strength = mountain_monster["strength"]
     # mountin_monster_endurance = mountain_monster["endurance"]
-    with open('db.json', 'r') as f:
+    with open('db.json') as f:
         db = json.load(f)
 
     for i in db['users']:
@@ -198,7 +206,8 @@ def message(update, context):
                 [
                     KeyboardButton('Атакувати'),
                     KeyboardButton('Захищатись'),
-                    KeyboardButton('Випити зілля')
+                    KeyboardButton('Випити зілля'),
+                    KeyboardButton('Панікувати')
                 ]   
             ]
             update.message.reply_text('Ти почав бій! Що будеш робити?', reply_markup = ReplyKeyboardMarkup(fight_menu))
@@ -206,23 +215,169 @@ def message(update, context):
             if local_stats['strength'] > 1 and local_stats['strength'] < 5 and not mountain_monster['health']  <= 0 and user_move == True:
                 user_move = False
                 damage = random.randint(6, 8)
-                chance = random.choices([1, 2], weights = [65, 35], k = 1)[0]
+                chance = random.choices([1, 2], weights = [65, 35], k = 1)[0] #якесь к1
                 if chance == 1:
                     mountain_monster['health'] = mountain_monster['health'] - damage
                     update.message.reply_text(f'Ти наніс {damage} урону монстру')
                 else:
                     update.message.reply_text('Ти промахнувся по монстру')
-            else:
+
+            elif "Панікувати" in yes_list:
                 user_move = True
-                if mountain_monster['strength'] >= 33:
-                    moster_damage = random(12, 17)
-                    chance = random.choices([1, 2], weights = [75, 25], k = 1)[0]
+                if mountain_monster['strength'] >= 33:              #Козел
+                    moster_damage = random(33, 40)
+                    chance = random.choices([1, 2], weights = [75, 25], k = 1)[0] #якесь к1
                     if chance == 1:
                         user_health = user_health - moster_damage
-                        update.message.reply_text(f'Монстр наніс тобі {moster_damage}!')
+                        update.message.reply_text(f'(чого ти нажав на цю кнопку??)Монстр наніс тобі {moster_damage}!')
+                        update.message.reply_photo(
+                            photo=open(r"C:\Users\User\Pictures\Saved Pictures\зображення_viber_2022-11-27_02-51-33-096.jpg", "rb"))
+
+                if mountain_monster['strength'] >= 2:  # Троль
+                    moster_damage = random(2, 12)
+                    chance = random.choices([1, 2], weights=[75, 25], k=1)[0]  # якесь к1
+                    if chance == 1:
+                        user_health = user_health - moster_damage
+                        update.message.reply_text(
+                            f'(чого ти нажав на цю кнопку??)Монстр наніс тобі {moster_damage}!')
+                        update.message.reply_photo(
+                            photo=open(
+                                r"C:\Users\User\Pictures\Saved Pictures\зображення_viber_2022-11-27_02-51-33-096.jpg",
+                                "rb"))
+
+                if mountain_monster['strength'] >= 3:  # Ящір
+                    moster_damage = random(3, 14)
+                    chance = random.choices([1, 2], weights=[75, 25], k=1)[0]  # якесь к1
+                    if chance == 1:
+                        user_health = user_health - moster_damage
+                        update.message.reply_text(
+                            f'(чого ти нажав на цю кнопку??)Монстр наніс тобі {moster_damage}!')
+                        update.message.reply_photo(
+                            photo=open(
+                                r"C:\Users\User\Pictures\Saved Pictures\зображення_viber_2022-11-27_02-51-33-096.jpg",
+                                "rb"))
+
                     else:
                         update.message.reply_text('Монстр промахнувся по тобі!')
+            elif 'Захищатись' in yes_list:
+                user_move = True
+                if mountain_monster['strength'] >= 33:              #Козел
+                    moster_damage = random(33, 40)
+                    chance = random.choices([1, 2], weights=[75, 25], k=1)[0]  # якесь к1
+                    if chance == 1:
+                        user_health -= moster_damage
+                        update.message.reply_text(f'Монстр наніс тобі {moster_damage}!')
+                        update.message.reply_photo(
+                            photo=open(
+                                r"C:\Users\User\Pictures\Saved Pictures\зображення_viber_2022-11-27_02-51-33-096.jpg","rb"))
+                        hp_safe= random[10,20]
+                        chance2 = random.choices([1, 2], weights=[65, 35], k=1)[0]
+                        if chance2 == 1:
 
+                            user_health2 =user_health+ hp_safe
+                            past_hp = user_health+ moster_damage
+
+                            moster_dmg_safe= past_hp-user_health2
+                            update.message.reply_text(f'Проте тобі вдалося захиститись і монстр наніс тобі лише{moster_dmg_safe} урону')
+
+                        else:
+                            update.message.reply_text(
+                                'ти якийсь не везучий,монстр вдарив по тобі зі сліпої точки та твій захист не спрацював!')
+
+                if mountain_monster['strength'] >= 2:              #Троль
+                    moster_damage = random(2, 12)
+                    chance = random.choices([1, 2], weights=[75, 25], k=1)[0]  # якесь к1
+                    if chance == 1:
+                        user_health -= moster_damage
+                        update.message.reply_text(f'Монстр наніс тобі {moster_damage}!')
+                        update.message.reply_photo(
+                            photo=open(
+                                r"C:\Users\User\Pictures\Saved Pictures\зображення_viber_2022-11-27_02-51-33-096.jpg","rb"))
+                        hp_safe= random[10,20] #було б класно якщо захист можна було робити в процентах до урону відповідного монстра
+                        chance2 = random.choices([1, 2], weights=[65, 35], k=1)[0]
+                        if chance2 == 1:
+
+                            user_health2 =user_health+ hp_safe
+                            past_hp = user_health+ moster_damage
+
+                            moster_dmg_safe= past_hp-user_health2
+                            update.message.reply_text(f'Проте тобі вдалося захиститись і монстр наніс тобі лише{moster_dmg_safe} урону')
+
+                        else:
+                            update.message.reply_text(
+                                'ти якийсь не везучий,монстр вдарив по тобі зі сліпої точки та твій захист не спрацював!')
+
+                if mountain_monster['strength'] >= 3:              #Ящір
+                    moster_damage = random(3, 14)
+                    chance = random.choices([1, 2], weights=[75, 25], k=1)[0]  # якесь к1
+                    if chance == 1:
+                        user_health -= moster_damage
+                        update.message.reply_text(f'Монстр наніс тобі {moster_damage}!')
+                        update.message.reply_photo(
+                            photo=open(
+                                r"C:\Users\User\Pictures\Saved Pictures\зображення_viber_2022-11-27_02-51-33-096.jpg","rb"))
+                        hp_safe= random[10,20] #було б класно якщо захист можна було робити в процентах до урону відповідного монстра
+                        chance2 = random.choices([1, 2], weights=[65, 35], k=1)[0]
+                        if chance2 == 1:
+
+                            user_health2 =user_health+ hp_safe
+                            past_hp = user_health+ moster_damage
+
+                            moster_dmg_safe= past_hp-user_health2
+                            update.message.reply_text(f'Проте тобі вдалося захиститись і монстр наніс тобі лише{moster_dmg_safe} урону')
+
+                        else:
+                            update.message.reply_text(
+                                'ти якийсь не везучий,монстр вдарив по тобі зі сліпої точки та твій захист не спрацював!')
+
+            elif 'Випити зілля' in yes_list:
+                user_move = True
+                if mountain_monster['strength'] >= 33:              #Козел
+                    moster_damage = random(33, 40)
+                    chance = random.choices([1, 2], weights=[75, 25], k=1)[0]  # якесь к1
+                    if chance == 1:
+                        user_health -= moster_damage
+                        update.message.reply_text(f'Монстр наніс тобі {moster_damage}!')
+                        update.message.reply_photo(
+                            photo=open(
+                                r"C:\Users\User\Pictures\Saved Pictures\зображення_viber_2022-11-27_02-51-33-096.jpg","rb"))
+                        hp_safe= random[10,20]
+                        user_health =user_health+ hp_safe
+
+                        update.message.reply_text(f'ти відновив{hp_safe} хп')
+
+                if mountain_monster['strength'] >= 2:  # Троль
+                    moster_damage = random(2, 12)
+                    chance = random.choices([1, 2], weights=[75, 25], k=1)[0]  # якесь к1
+                    if chance == 1:
+                        user_health -= moster_damage
+                        update.message.reply_text(f'Монстр наніс тобі {moster_damage}!')
+                        update.message.reply_photo(
+                            photo=open(
+                                r"C:\Users\User\Pictures\Saved Pictures\зображення_viber_2022-11-27_02-51-33-096.jpg",
+                                "rb"))
+                        hp_safe = random[10, 20]
+                        user_health = user_health + hp_safe
+
+                        update.message.reply_text(f'ти відновив{hp_safe} хп')
+
+                if mountain_monster['strength'] >= 3:  # Ящір
+                    moster_damage = random(3, 14)
+                    chance = random.choices([1, 2], weights=[75, 25], k=1)[0]  # якесь к1
+                    if chance == 1:
+                        user_health -= moster_damage
+                        update.message.reply_text(f'Монстр наніс тобі {moster_damage}!')
+                        update.message.reply_photo(
+                            photo=open(
+                                r"C:\Users\User\Pictures\Saved Pictures\зображення_viber_2022-11-27_02-51-33-096.jpg",
+                                "rb"))
+                        hp_safe = random[10, 20]
+                        user_health = user_health + hp_safe
+
+                        update.message.reply_text(f'ти відновив{hp_safe} хп')
+
+
+#Ти точно впевнений що це іф стоїть на правельному рядку?
             if mountain_monster['health'] <= 0:
                 user_move = True
                 Goat = {"strength": 33, "agility": 3, "endurance": 2, 'health': 10}
