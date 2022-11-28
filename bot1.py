@@ -111,8 +111,8 @@ def stat(update, context):
 # я ще в школі варіант з гет і нон попробую ._.
 
 Goat = {"strength": 33, "agility": 3, "endurance": 2, 'health': 10}
-Trol = {"strength": 2, "agility": 1, "endurance": 2, 'health': 25}
-Lizzard = {"strength": 3, "agility": 2, "endurance": 3, 'health': 20}
+Trol = {"strength": 12, "agility": 1, "endurance": 2, 'health': 25}
+Lizzard = {"strength": 13, "agility": 2, "endurance": 3, 'health': 20}
 
 mountains = Goat, Trol, Lizzard
 mountain_monster = random.choice(mountains)
