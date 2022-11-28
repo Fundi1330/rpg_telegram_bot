@@ -280,7 +280,7 @@ def message(update, context):
                     update.message.reply_text(f'Ти наніс {damage} урону монстру')
                 else:
                     update.message.reply_text('Ти промахнувся по монстру')
-            if local_stats['strength'] > 5 and local_stats['strength'] < 10 and not mountain_monster[
+            elif local_stats['strength'] > 5 and local_stats['strength'] < 10 and not mountain_monster[
                                                                                         'health'] <= 0 and user_move == True:
                 user_move = False
                 damage = random.randint(11, 13)
@@ -290,10 +290,61 @@ def message(update, context):
                     update.message.reply_text(f'Ти наніс {damage} урону монстру')
                 else:
                     update.message.reply_text('Ти промахнувся по монстру')
+
+            elif local_stats['strength'] > 10 and local_stats['strength'] < 15 and not mountain_monster[
+                                                                                        'health'] <= 0 and user_move == True:
+                user_move = False
+                damage = random.randint(17, 21)
+                chance = random.choices([1, 2], weights=[65, 35], k=1)[0]
+                if chance == 1:
+                    mountain_monster['health'] = mountain_monster['health'] - damage
+                    update.message.reply_text(f'Ти наніс {damage} урону монстру')
+                else:
+                    update.message.reply_text('Ти промахнувся по монстру')
+            elif local_stats['strength'] > 15 and local_stats['strength'] < 20 and not mountain_monster[
+                                                                                        'health'] <= 0 and user_move == True:
+                user_move = False
+                damage = random.randint(23, 29)
+                chance = random.choices([1, 2], weights=[65, 35], k=1)[0]
+                if chance == 1:
+                    mountain_monster['health'] = mountain_monster['health'] - damage
+                    update.message.reply_text(f'Ти наніс {damage} урону монстру')
+                else:
+                    update.message.reply_text('Ти промахнувся по монстру')
+            elif local_stats['strength'] > 20 and local_stats['strength'] < 25and not mountain_monster[
+                                                                                        'health'] <= 0 and user_move == True:
+                user_move = False
+                damage = random.randint(29, 37)
+                chance = random.choices([1, 2], weights=[65, 35], k=1)[0]
+                if chance == 1:
+                    mountain_monster['health'] = mountain_monster['health'] - damage
+                    update.message.reply_text(f'Ти наніс {damage} урону монстру')
+                else:
+                    update.message.reply_text('Ти промахнувся по монстру')
+            elif local_stats['strength'] > 25 and local_stats['strength'] < 30and not mountain_monster[
+                                                                                        'health'] <= 0 and user_move == True:
+                user_move = False
+                damage = random.randint(35, 45)
+                chance = random.choices([1, 2], weights=[65, 35], k=1)[0]
+                if chance == 1:
+                    mountain_monster['health'] = mountain_monster['health'] - damage
+                    update.message.reply_text(f'Ти наніс {damage} урону монстру')
+                else:
+                    update.message.reply_text('Ти промахнувся по монстру')
+            elif local_stats['strength'] > 30 and local_stats['strength'] < 35and not mountain_monster[
+                                                                                        'health'] <= 0 and user_move == True:
+                user_move = False
+                damage = random.randint(45, 53)
+                chance = random.choices([1, 2], weights=[65, 35], k=1)[0]
+                if chance == 1:
+                    mountain_monster['health'] = mountain_monster['health'] - damage
+                    update.message.reply_text(f'Ти наніс {damage} урону монстру')
+                else:
+                    update.message.reply_text('Ти промахнувся по монстру')
         elif "Панікувати" in yes_list:
             user_move = True
             if mountain_monster['strength'] >= 33:  # Козел
-                moster_damage = random.randint(4, 33)
+                moster_damage = random.randint(12, 40)
                 chance = random.choices([1, 2], weights=[75, 25], k=1)[0]  # якесь к1
                 if chance == 1:
                     user_health = user_health - moster_damage
@@ -332,7 +383,7 @@ def message(update, context):
         elif 'Захищатись' in yes_list:
             user_move = True
             if mountain_monster['strength'] >= 33:  # Козел
-                moster_damage = random.randint(4, 33)
+                moster_damage = random.randint(12, 40)
                 chance = random.choices([1, 2], weights=[75, 25], k=1)[0]  # якесь к1
                 if chance == 1:
                     user_health -= moster_damage
@@ -493,7 +544,7 @@ def message(update, context):
         elif 'Випити зілля' in yes_list:
             user_move = True
             if mountain_monster['strength'] >= 330:  # Козел
-                moster_damage = random.randint(40, 330)
+                moster_damage = random.randint(12, 40)
                 chance = random.choices([1, 2], weights=[75, 25], k=1)[0]  # якесь к1
                 if chance == 1:
                     user_health -= moster_damage
@@ -507,7 +558,7 @@ def message(update, context):
 
                     update.message.reply_text(f'ти відновив{hp_safe} хп')
 
-            if mountain_monster['strength'] >= 20:  # Троль
+            if mountain_monster['strength'] >= 12:  # Троль
                 moster_damage = random.randint(2, 12)
                 chance = random.choices([1, 2], weights=[75, 25], k=1)[0]  # якесь к1
                 if chance == 1:
@@ -522,7 +573,7 @@ def message(update, context):
 
                     update.message.reply_text(f'ти відновив{hp_safe} хп')
 
-            if mountain_monster['strength'] >= 30:  # Ящір
+            if mountain_monster['strength'] >= 13:  # Ящір
                 moster_damage = random.randint(3, 14)
                 chance = random.choices([1, 2], weights=[75, 25], k=1)[0]  # якесь к1
                 if chance == 1:
