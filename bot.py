@@ -14,7 +14,7 @@ key = read
 def start(update, context):
     name = update.message.from_user.username
     stats = {"name": name, "strength": random.randint(1, 5), "agility": random.randint(2, 7),
-             "endurance": random.randint(1, 9), "energy": 100}
+             "endurance": random.randint(1, 9),"stat_points":7, "energy": 100}
     update.message.reply_text('Travel RPG Bot is a simple rpg bot')
 
     with open('db.json') as f:
@@ -44,7 +44,7 @@ def start(update, context):
                                    "rb"))
 
 
-stat_points = 7
+#stat_points = 7
 
 
 def stat(update, context):
@@ -58,10 +58,11 @@ def stat(update, context):
     for i in info['users']:
         if i['name'] == name:
             for k in i:
+
                 local_stats[k] = i[k]
 
     update.message.reply_text(
-        f'Стати юзера: \n💪 Сила: {local_stats["strength"]}, \n🏇 Спритність: {local_stats["agility"]}, \n🛡 Витривалітсть: {local_stats["endurance"]},\n Стат поінти:{stat_points},\nЕнергія:{local_stats["energy"]} ')
+        f'Стати юзера: \n💪 Сила: {local_stats["strength"]}, \n🏇 Спритність: {local_stats["agility"]}, \n🛡 Витривалітсть: {local_stats["endurance"]},\n Стат поінти:{local_stats["stat_points"]},\nЕнергія:{local_stats["energy"]} ')
 
     # with open('db.json') as f:
     #     data = json.load(f)
@@ -150,7 +151,6 @@ else:
 yes_list = []
 
 def message(update, context):
-    global stat_points
     global energy
     global user_move, user_health
     global yes_list
@@ -189,45 +189,40 @@ def message(update, context):
     name = update.message.from_user.username
     local_stats = {}
 
+
     for i in db['users']:
         if i['name'] == name:
             for k in i:
                 local_stats[k] = i[k]
 
-    if stat_points > 0:
+    if local_stats["stat_points"] > 0:
         if mes == '1':
             local_stats["strength"] += 1
-            stat_points -= 1
+            local_stats["stat_points"] -= 1
             for i in info['users']:
                 if i['name'] == name:
-                    print(i)
                     for k in i:
                         i[k] = local_stats[k]
-                        print(info)
 
                         with open("db.json", "w") as f:
                             json.dump(info, f)
         elif mes == '2':
             local_stats["agility"] += 1
-            stat_points -= 1
+            local_stats["stat_points"] -= 1
             for i in info['users']:
                 if i['name'] == name:
-                    print(i)
                     for k in i:
                         i[k] = local_stats[k]
-                        print(info)
 
                         with open("db.json", "w") as f:
                             json.dump(info, f)
         elif mes == '3':
             local_stats["endurance"] += 1
-            stat_points -= 1
+            local_stats["stat_points"] -= 1
             for i in info['users']:
                 if i['name'] == name:
-                    print(i)
                     for k in i:
                         i[k] = local_stats[k]
-                        print(info)
 
                         with open("db.json", "w") as f:
                             json.dump(info, f)
@@ -242,9 +237,6 @@ def message(update, context):
     #         for k in i:
     #             i[k] = local_stats[k]
     #         print(i)
-
-
-
 
     if local_stats["energy"] > 10:
         yes_list.append(update.message.text)
@@ -491,11 +483,28 @@ def message(update, context):
 
 
 def add_points(update, context):
-    if stat_points > 0:
-        context.bot.send_message(chat_id=update.effective_chat.id,
+        with open('db.json', 'r') as db:
+            info = json.load(db)
+
+        name = update.message.from_user.username
+        local_stats = {}
+
+        # for i in info['users']:
+        #     print(i)
+        #     if i['name'] == name:
+        #         [local_stats] = info['users'][i]
+        #         print(local_stats)
+
+        for i in info['users']:
+            if i['name'] == name:
+                for k in i:
+                    local_stats[k] = i[k]
+
+                if local_stats["stat_points"] > 0:
+                            context.bot.send_message(chat_id=update.effective_chat.id,
                                  text='Яку з характеристик ти хочеш покращити? 1.Сила, 2.Спритність, 3.Витривалість (Введи число)')
-    else:
-        update.message.reply_text('В тебе недостатньо скілл поінтів')
+                else:
+                    update.message.reply_text('В тебе недостатньо скілл поінтів')
 
 
 def location(update, context):
