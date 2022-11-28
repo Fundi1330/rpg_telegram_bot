@@ -2,7 +2,6 @@ from telegram.ext import *
 import json
 import random
 from telegram import *
-import threading
 
 key = {}
 
