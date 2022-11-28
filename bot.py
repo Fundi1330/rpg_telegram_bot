@@ -2,6 +2,7 @@ from telegram.ext import *
 import json
 import random
 from telegram import *
+import threading
 
 key = {}
 
@@ -10,10 +11,12 @@ with open('config.json', 'r') as file:
 
 key = read
 
-
+# ---------------------------------------------------------------------------- #
+#                                 Example Text                                 #
+# ---------------------------------------------------------------------------- #
 def start(update, context):
     name = update.message.from_user.username
-    stats = {"name": name, "strength": random.randint(1, 5), "agility": random.randint(2, 7), "endurance": random.randint(1, 9)}
+    stats = {"name": name, "strength": random.randint(1, 5), "agility": random.randint(2, 7), "endurance": random.randint(1, 9), "energy": 100, "health": 40}
     update.message.reply_text('Travel RPG Bot is a simple rpg bot')
 
     with open('db.json') as f:
@@ -21,24 +24,6 @@ def start(update, context):
         data['users'].append(stats)
         with open('db.json', 'w') as outfile:
             json.dump(data, outfile)
-            random_img = random.randint(1,2)
-            if random_img == 1:
-                random_img1 = random.randint(1,2)
-                if random_img1 ==1:
-                    update.message.reply_photo(
-                    photo=open(r"C:\Users\User\Pictures\Saved Pictures\photo-1511117833895-4b473c0b85d6.jpg", "rb"))
-                else:
-                    update.message.reply_photo(
-                    photo=open(r"C:\Users\User\Pictures\Saved Pictures\Plane-taking-off-twilight-1024x684.jpg", "rb"))
-            else:
-                random_img2 = random.randint(1, 2)
-                if random_img2 ==1:
-                    update.message.reply_photo(
-                        photo=open(r"C:\Users\User\Pictures\Saved Pictures\0x0.jpg", "rb"))
-                else:
-                    update.message.reply_photo(
-                        photo=open(r"C:\Users\User\Pictures\Saved Pictures\ss_2ecaeff42c548d1200668869a8767.jpg",
-                                   "rb"))
 
 
 
@@ -62,26 +47,26 @@ def stat(update, context):
             
     update.message.reply_text(f'Стати юзера: \n💪 Сила: {local_stats["strength"]}, \n🏇 Спритність: {local_stats["agility"]}, \n🛡 Витривалітсть: {local_stats["endurance"]},\n Стат поінти:{stat_points}')
 
-    with open('db.json') as f:
-        data = json.load(f)
-    name = update.message.from_user.username
-    local_stats = {}
-    for i in data["users"]:
-        for b in i:
-            if name is None:
-                num_lib = []
-                for v in data["users"]:
-                    num_lib+= v
-                biggest_num = max(num_lib)
-                norm_num = (int(biggest_num)) + 1
-                numero = str(norm_num)
+    # with open('db.json') as f:
+    #     data = json.load(f)
+    # name = update.message.from_user.username
+    # local_stats = {}
+    # for i in data["users"]:
+    #     for b in i:
+    #         if name is None:
+    #             num_lib = []
+    #             for v in data["users"]:
+    #                 num_lib+= v
+    #             biggest_num = max(num_lib)
+    #             norm_num = (int(biggest_num)) + 1
+    #             numero = str(norm_num)
 
-                data["users"][numero] = {name: True}
-                with open("db.json", "w") as f:
-                    json.dump(data, f, indent=4)
-            else:
-                for a in b:
-                    local_stats[name] = a
+    #             data["users"][numero] = {name: True}
+    #             with open("db.json", "w") as f:
+    #                 json.dump(data, f, indent=4)
+    #         else:
+    #             for a in b:
+    #                 local_stats[name] = a
 
 
     #
@@ -150,9 +135,8 @@ else:
 
 
 # stats = {"strength": random.randint(1, 5), "agility": random.randint(2, 7), "endurance": random.randint(1, 9)}
-yes_list = []
+words_list = []
 user_move = True
-user_health = 40
 
 potion = 2
 
@@ -160,7 +144,7 @@ def message(update, context):
     global stat_points
     global energy
     global user_move, user_health
-    global yes_list
+    global words_list
     global mountain_monster, mountain_monster_name, forest_monster, forest_monster_name, Goat, Trol, Lizzard, Wolf, Kaban, Ork
     mes = str(update.message.text).lower()
     name = update.message.from_user.username
@@ -197,16 +181,16 @@ def message(update, context):
                 local_stats[k] = i[k]
                 
     if energy > 10 and not user_health <= 0:
-        yes_list.append(update.message.text)
+        words_list.append(update.message.text)
         if mes == "гори":
             energy -= 15
             update.message.reply_text(f"{name} ти натрапив на {mountain_monster_name}, хочеш втекти ?")
 
             # if update.message.text != 'гори':
-            #     yes_list.append(update.message.text)
+            #     words_list.append(update.message.text)
 
-            # if update.message.text not in yes_list:
-            #     yes_list.append(update.message.text)
+            # if update.message.text not in words_list:
+            #     words_list.append(update.message.text)
 
         
 
@@ -216,8 +200,9 @@ def message(update, context):
             
         # ._.
 
-        if mes == "ліс":
+        elif mes == "ліс":
             update.message.reply_text(f"{name} ти натрапив на {forest_monster_name}!")
+            energy -= 15
             # num = stats["agility"] // forest_monster["agility"]
             # stats["strength"] * num
             # forest_monster["endurancce"] - stats["strength"]
@@ -230,15 +215,47 @@ def message(update, context):
             #     update.message.reply_text("Ви програли.")
             # elif forest_monster['endurance'] == 0:
             #     update.message.reply_text("Ви виграли!")
-        # ._.
-    else:
-        update.message.reply_text('У вас недостатньо енергії')
-        if 'так' in yes_list: 
-            yes_list = []
+        elif mes == 'місто':
+            city_buttons = [
+                [
+                    KeyboardButton('Піти до церкви')
+                ]   
+            ]
+            button = ReplyKeyboardMarkup(city_buttons)
+            update.message.reply_text('Ви прибули в місто, що хочете робити?', reply_markup = button)
+        if 'Піти до церкви' in words_list:
+            words_list = []
+            church_buttons = [
+                [
+                    KeyboardButton('Помолитись')
+                ]
+            ]
+            update.message.reply_text('Вибери що будеш робити?', reply_markup = ReplyKeyboardMarkup(church_buttons))
+        elif 'Помолитись' in words_list:
+            words_list = []
+            buff = random.choice('health', 'strength')
+            text = ''
+            if buff == 'health':
+                text = "+ 10 до здоров'я"
+                buffed_health = local_stats['health'] + 10
+                new_stats = local_stats
+                for i in db['users']:
+                    if i['name'] == name:
+                        for k in i:
+                            new_stats['health'] = buffed_health
+                
+                with open('db.json', 'w') as db:
+                    json.dump(new_stats)
+            else:
+                local_stats['strength'] = local_stats['strength'] + 5
+                text = '+ 5 до сили'
+            update.message.reply_text(f'Ти помолився й отримав бафф: {text}')
+        elif 'так' in words_list: 
+            words_list = []
             update.message.reply_text('Ти втік з гір')
             mountain_monster = random.choice(mountains)
-        elif 'ні' in yes_list:
-            yes_list = []
+        elif 'ні' in words_list:
+            words_list = []
             fight_menu = [
                 [
                     KeyboardButton('Атакувати'),
@@ -248,17 +265,33 @@ def message(update, context):
             ]
             update.message.reply_text('Ти почав бій! Що будеш робити?', reply_markup = ReplyKeyboardMarkup(fight_menu))
         
-        elif 'Атакувати' in yes_list:
-            yes_list = []
+        elif 'Атакувати' in words_list:
+            words_list = []
+            
             if local_stats['strength'] > 1 and local_stats['strength'] < 5 and not mountain_monster['health']  <= 0 and user_move == True:
                 user_move = False
                 damage = random.randint(6, 8)
                 chance = random.choices([1, 2], weights = [65, 35], k = 1)[0] #якесь к1
-                if chance == 1:
-                    mountain_monster['health'] = mountain_monster['health'] - damage
-                    update.message.reply_text(f'Ти наніс {damage} урону монстру')
-                else:
-                    update.message.reply_text('Ти промахнувся по монстру')
+
+            elif local_stats['strength'] > 5 and local_stats['strength'] < 10 and not mountain_monster['health']  <= 0 and user_move == True:
+                user_move = False
+                damage = random.randint(9, 13)
+                chance = random.choices([1, 2], weights = [65, 35], k = 1)[0] #якесь к1
+            
+            elif local_stats['strength'] > 10 and local_stats['strength'] < 17 and not mountain_monster['health']  <= 0 and user_move == True:
+                user_move = False
+                damage = random.randint(15, 22)
+                chance = random.choices([1, 2], weights = [65, 35], k = 1)[0] #якесь к1
+
+            elif local_stats['strength'] > 20 and not mountain_monster['health']  <= 0 and user_move == True:
+                user_move = False
+                damage = random.randint(int(local_stats['health'] / 1.5), int(local_stats['health'] / 1.5) + 7)
+                chance = random.choices([1, 2], weights = [65, 35], k = 1)[0] #якесь к1
+            if chance == 1:
+                mountain_monster['health'] = mountain_monster['health'] - damage
+                update.message.reply_text(f'Ти наніс {damage} урону монстру')
+            else:
+                update.message.reply_text('Ти промахнувся по монстру')
 
             user_move = True
             if mountain_monster['strength'] >= 33:              #Козел
@@ -283,8 +316,8 @@ def message(update, context):
                     #         "rb"))
             else:
                 update.message.reply_text('Монстр промахнувся по тобі!')
-        elif 'Захищатись' in yes_list:
-            yes_list = []
+        elif 'Захищатись' in words_list:
+            words_list = []
             user_move = False
             if mountain_monster['strength'] >= 33:              #Козел
                 moster_damage = random.randint(12, 17)
@@ -314,8 +347,12 @@ def message(update, context):
 
                 moster_dmg_safe= past_hp - user_health2
                 update.message.reply_text(f'Тобі вдалося захиститись і монстр наніс лише {moster_dmg_safe} урону')
-        # elif 'Випити зілля' in yes_list:
-        #     yes_list = []
+        # ._.
+    else:
+        update.message.reply_text('У вас недостатньо енергії')
+        
+        # elif 'Випити зілля' in words_list:
+        #     words_list = []
         #     user_move = True
         #     if mountain_monster['strength'] >= 33:              #Козел
         #         moster_damage = random.randint(33, 40)
@@ -404,57 +441,57 @@ def music(update, context):
     reply_markup = InlineKeyboardMarkup(keyboard)
     update.message.reply_text('Вибери музику, яку хочеш слухати', reply_markup = reply_markup)
 
-def callback(update, context):
-    query = update.callback_query
-    answer = query.data
+# def callback(update, context):
+#     query = update.callback_query
+#     answer = query.data
 
-    if answer == '1':
-        with open('music/skyrim.mp3', 'rb') as music:
-            sound = music.read()
-        query.message.reply_voice(sound)
-    elif answer == '2':
-        with open('music/inn.mp3', 'rb') as inn:
-            bw = inn.read()
-        query.message.reply_voice(bw)
-    # update.message.reply_text('hello11deadaf')
+#     if answer == '1':
+#         with open('music/skyrim.mp3', 'rb') as music:
+#             sound = music.read()
+#         query.message.reply_voice(sound)
+#     elif answer == '2':
+#         with open('music/inn.mp3', 'rb') as inn:
+#             bw = inn.read()
+#         query.message.reply_voice(bw)
+#     # update.message.reply_text('hello11deadaf')
 
-    def build_menu(buttons, n_cols, header_buttons=None, footer_buttons=None):
+#     def build_menu(buttons, n_cols, header_buttons=None, footer_buttons=None):
 
-        menu = [buttons[i:i + n_cols] for i in range(0, len(buttons), n_cols)]
-        if header_buttons:
-            menu.insert(0, header_buttons)
-        if footer_buttons:
-            menu.append(footer_buttons)
-        return menu
+#         menu = [buttons[i:i + n_cols] for i in range(0, len(buttons), n_cols)]
+#         if header_buttons:
+#             menu.insert(0, header_buttons)
+#         if footer_buttons:
+#             menu.append(footer_buttons)
+#         return menu
 
-    if energy > 10:
-        button_list = []
-        lis_horu = ["ліс", "гори"]
+#     if energy > 10:
+#         button_list = []
+#         lis_horu = ["ліс", "гори"]
 
-        for i in lis_horu:
-            button_list.append(InlineKeyboardButton(i, callback_data=i))
-            reply_markup = InlineKeyboardMarkup(
-                build_menu(button_list, n_cols=1))  # n_cols = 1 is for single column and mutliple rows
-        update.message.reply_text('Куди ви хочете піти подорожувати сьогодні? ', reply_markup=reply_markup)
+#         for i in lis_horu:
+#             button_list.append(InlineKeyboardButton(i, callback_data=i))
+#             reply_markup = InlineKeyboardMarkup(
+#                 build_menu(button_list, n_cols=1))  # n_cols = 1 is for single column and mutliple rows
+#         update.message.reply_text('Куди ви хочете піти подорожувати сьогодні? ', reply_markup=reply_markup)
 
-    def build_menu(buttons, n_cols, header_buttons=None, footer_buttons=None):
+#     def build_menu(buttons, n_cols, header_buttons=None, footer_buttons=None):
 
-        menu = [buttons[i:i + n_cols] for i in range(0, len(buttons), n_cols)]
-        if header_buttons:
-            menu.insert(0, header_buttons)
-        if footer_buttons:
-            menu.append(footer_buttons)
-        return menu
+#         menu = [buttons[i:i + n_cols] for i in range(0, len(buttons), n_cols)]
+#         if header_buttons:
+#             menu.insert(0, header_buttons)
+#         if footer_buttons:
+#             menu.append(footer_buttons)
+#         return menu
 
-    if energy > 10:
-        button_list = []
-        lis_horu = ["ліс", "гори"]
+#     if energy > 10:
+#         button_list = []
+#         lis_horu = ["ліс", "гори"]
 
-        for i in lis_horu:
-            button_list.append(InlineKeyboardButton(i, callback_data=i))
-            reply_markup = InlineKeyboardMarkup(
-                build_menu(button_list, n_cols=1))  # n_cols = 1 is for single column and mutliple rows
-        update.message.reply_text('Куди ви хочете піти подорожувати сьогодні? ', reply_markup=reply_markup)
+#         for i in lis_horu:
+#             button_list.append(InlineKeyboardButton(i, callback_data=i))
+#             reply_markup = InlineKeyboardMarkup(
+#                 build_menu(button_list, n_cols=1))  # n_cols = 1 is for single column and mutliple rows
+#         update.message.reply_text('Куди ви хочете піти подорожувати сьогодні? ', reply_markup=reply_markup)
 
     # def build_menu(buttons, n_cols, header_buttons=None, footer_buttons=None):
     #
@@ -517,7 +554,7 @@ def main():
     dp.add_handler(MessageHandler(filters=Filters.text, callback = message))
     #dp.add_handler(CallbackQueryHandler(callback_handler_Parara))
 
-    dp.add_handler(CallbackQueryHandler(callback))
+    # dp.add_handler(CallbackQueryHandler(callback))
 
     dp.add_error_handler(error)
     updater.start_polling()
