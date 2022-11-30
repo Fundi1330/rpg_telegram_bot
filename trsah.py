@@ -107,3 +107,122 @@
 #     #     # ._.
 #     # else:
 #     #     update.message.reply_text('У вас недостатньо енергії')
+ # update.message.reply_text('hello11deadaf')
+
+
+#     def build_menu(buttons, n_cols, header_buttons=None, footer_buttons=None):
+
+#         menu = [buttons[i:i + n_cols] for i in range(0, len(buttons), n_cols)]
+#         if header_buttons:
+#             menu.insert(0, header_buttons)
+#         if footer_buttons:
+#             menu.append(footer_buttons)
+#         return menu
+
+#     if energy > 10:
+#         button_list = []
+#         lis_horu = ["ліс", "гори"]
+
+#         for i in lis_horu:
+#             button_list.append(InlineKeyboardButton(i, callback_data=i))
+#             reply_markup = InlineKeyboardMarkup(
+#                 build_menu(button_list, n_cols=1))  # n_cols = 1 is for single column and mutliple rows
+#         update.message.reply_text('Куди ви хочете піти подорожувати сьогодні? ', reply_markup=reply_markup)
+
+#     def build_menu(buttons, n_cols, header_buttons=None, footer_buttons=None):
+
+#         menu = [buttons[i:i + n_cols] for i in range(0, len(buttons), n_cols)]
+#         if header_buttons:
+#             menu.insert(0, header_buttons)
+#         if footer_buttons:
+#             menu.append(footer_buttons)
+#         return menu
+
+#     if energy > 10:
+#         button_list = []
+#         lis_horu = ["ліс", "гори"]
+
+#         for i in lis_horu:
+#             button_list.append(InlineKeyboardButton(i, callback_data=i))
+#             reply_markup = InlineKeyboardMarkup(
+#                 build_menu(button_list, n_cols=1))  # n_cols = 1 is for single column and mutliple rows
+#         update.message.reply_text('Куди ви хочете піти подорожувати сьогодні? ', reply_markup=reply_markup)
+
+    # def build_menu(buttons, n_cols, header_buttons=None, footer_buttons=None):
+    #
+    #     menu = [buttons[i:i + n_cols] for i in range(0, len(buttons), n_cols)]
+    #     if header_buttons:
+    #         menu.insert(0, header_buttons)
+    #     if footer_buttons:
+    #         menu.append(footer_buttons)
+    #     return menu
+
+    # def callback_handler_Parara(update, context):
+    #     global energy
+    #     button_list = []
+    #     handler = update.callback_query
+    #     answer = handler.data
+    #     if answer == "гори":
+    #         print("ти вибрав гори")
+    #         yes_no = ["так", "ні"]
+    #         for b in yes_no:
+    #             print(type(b))
+    #             name = handler.message.from_user.username
+    #             button_list.append(InlineKeyboardButton(b, callback_data=b))
+    #             print(button_list)
+    #             reply_markup = InlineKeyboardMarkup(
+    #                 str(button_list))  # n_cols = 1 is for single column and mutliple rows
+    #         energy -= 15
+    #         handler.message.reply_text(f"{name} ти натрапив на {mountain_monster_name}, хочеш втекти ?",
+    #                                    reply_markup=reply_markup)
+    #         if answer == 'так':
+    #             handler.message.reply_text('Ти втік з гір')
+    #         elif answer == 'ні':
+    #             print("дойшло до цього ні")
+
+# elif 'Випити зілля' in words_list:
+#     words_list = []
+#     user_move = True
+#     if mountain_monster['strength'] >= 33:              #Козел
+#         moster_damage = random.randint(33, 40)
+#         chance = random.choices([1, 2], weights=[75, 25], k=1)[0]  # якесь к1
+#         if chance == 1:
+#             user_health -= moster_damage
+#             update.message.reply_text(f'Монстр наніс тобі {moster_damage}!')
+#             # update.message.reply_photo(
+#             #     photo=open(
+#             #         r"C:\Users\User\Pictures\Saved Pictures\зображення_viber_2022-11-27_02-51-33-096.jpg","rb"))
+#             hp_safe =  random.randint(10,20)
+#             user_health =user_health+ hp_safe
+
+#             update.message.reply_text(f'ти відновив{hp_safe} хп')
+
+#     elif mountain_monster['strength'] >= 2:  # Троль
+#         moster_damage = random.randint(2, 12)
+#         chance = random.choices([1, 2], weights=[75, 25], k=1)[0]  # якесь к1
+#         if chance == 1:
+#             user_health -= moster_damage
+#             update.message.reply_text(f'Монстр наніс тобі {moster_damage}!')
+#             # update.message.reply_photo(
+#             #     photo=open(
+#             #         r"C:\Users\User\Pictures\Saved Pictures\зображення_viber_2022-11-27_02-51-33-096.jpg",
+#             #         "rb"))
+#             hp_safe =  random.randint(10, 20)
+#             user_health = user_health + hp_safe
+
+#             update.message.reply_text(f'ти відновив{hp_safe} хп')
+
+#     elif mountain_monster['strength'] >= 3:  # Ящір
+#         moster_damage = random.randint(3, 14)
+#         chance = random.choices([1, 2], weights=[75, 25], k=1)[0]  # якесь к1
+#         if chance == 1:
+#             user_health -= moster_damage
+#             update.message.reply_text(f'Монстр наніс тобі {moster_damage}!')
+#             update.message.reply_photo(
+#                 photo=open(
+#                     r"C:\Users\User\Pictures\Saved Pictures\зображення_viber_2022-11-27_02-51-33-096.jpg",
+#                     "rb"))
+#             hp_safe =  random.randint(10, 20)
+#             user_health = user_health + hp_safe
+
+#             update.message.reply_text(f'ти відновив{hp_safe} хп')

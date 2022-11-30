@@ -64,51 +64,7 @@ def stat(update, context):
     update.message.reply_text(
         f'Стати юзера: \n💪 Сила: {local_stats["strength"]}, \n🏇 Спритність: {local_stats["agility"]}, \n🛡 Витривалітсть: {local_stats["endurance"]},\n Стат поінти:{local_stats["stat_points"]},\nЕнергія:{local_stats["energy"]} ')
 
-    # with open('db.json') as f:
-    #     data = json.load(f)
-    # name = update.message.from_user.username
-    # local_stats = {}
-    # for i in data["users"]:
-    #     for b in i:
-    #         if name is None:
-    #             num_lib = []
-    #             for v in data["users"]:
-    #                 num_lib+= v
-    #             biggest_num = max(num_lib)
-    #             norm_num = (int(biggest_num)) + 1
-    #             numero = str(norm_num)
-    #
-    #             data["users"][numero] = {name: True}
-    #             with open("db.json", "w") as f:
-    #                 json.dump(data, f, indent=4)
-    #         else:
-    #             for a in b:
-    #                 local_stats[name] = a
 
-    #
-    # db = info
-    # data = {}
-    # sup = {}
-    #
-    # name = update.message.from_user.username
-    # local_stats = {}
-    # stats = {'strength': random.randint(1, 5), 'agility': random.randint(2, 7), 'endurance': random.randint(1, 9)}
-    #
-    # for i in db:
-    #     for b in i:
-    #         if b == name:
-    #             for k in dict(db[b]):
-    #                 local_stats[k] = db[b][k]
-    #             update.message.reply_text(f'Стати @{name}: \n💪 Сила: {local_stats["strength"]}, \n🏇 Спритність: {local_stats["agility"]}, \n🛡 Витривалітсть: {local_stats["endurance"]},\n 🌟Стат поінти:{stat_points}')
-    #         elif name not in db:
-    #             sup.update({name: stats})
-    #             data.update({"users":sup})
-    #             update.message.reply_text(f'Стати @{name}: \n💪 Сила: {data["strength"]}, \n🏇 Спритність: {data["agility"]}, \n🛡 Витривалітсть: {data["endurance"]},\n🌟 Стат поінти:{stat_points}')
-    #             with open("db.json", "w") as outfile:
-    #                 json.dump(data, outfile, indent=4,)
-
-
-# я ще в школі варіант з гет і нон попробую ._.
 
 Goat = {"strength": 33, "agility": 3, "endurance": 2, 'health': 10}
 Trol = {"strength": 12, "agility": 1, "endurance": 2, 'health': 25}
@@ -154,36 +110,12 @@ potion = 2
 yes_list = []
 
 def message(update, context):
-    global energy
     global user_move, user_health
     global yes_list
     global mountain_monster, mountain_monster_name, forest_monster, forest_monster_name
     mes = str(update.message.text).lower()
-    name = update.message.from_user.username
 
-    # forest_monster = random.choice(forest)
-    # mountain_monster = random.choice(mountains)
 
-    # if stat_points > 0:
-    #     # if mes == '1':
-    #     #     stats["strength"] += 1
-    #     #     stat_points -= 1
-    #     # elif mes == '2':
-    #     #     stats["agility"] += 1
-    #     #     stat_points -= 1
-    #     # elif mes == '3':
-    #     #     stats["endurance"] += 1
-    #     #     stat_points -= 1
-    # else:
-    #     update.message.reply_text('В тебе недостатньо скілл поінтів')
-
-    # user_agility = stats["agility"]
-    # user_strength = stats["strength"]
-    # user_endurance = stats["endurance"]
-
-    # mountin_monster_agility = mountain_monster["agility"]
-    # mountin_monster_strength = mountain_monster["strength"]
-    # mountin_monster_endurance = mountain_monster["endurance"]
     with open('db.json', 'r') as db:
         info = json.load(db)
 
@@ -232,14 +164,6 @@ def message(update, context):
     else:
         update.message.reply_text('В тебе недостатньо скілл поінтів')
 
-    # with open('db.json', 'r') as db:
-    #     info = json.load(db)
-    #
-    # for i in info['users']:
-    #     if i['name'] == name:
-    #         for k in i:
-    #             i[k] = local_stats[k]
-    #         print(i)
 
     if local_stats["energy"] > 10:
         yes_list.append(update.message.text)
@@ -247,11 +171,6 @@ def message(update, context):
             local_stats["energy"] -= 15
             update.message.reply_text(f"{name} ти натрапив на {mountain_monster_name}, хочеш втекти ?")
 
-            # if update.message.text != 'гори':
-            #     yes_list.append(update.message.text)
-
-            # if update.message.text not in yes_list:
-            #     yes_list.append(update.message.text)
 
         if 'так' in yes_list:
             yes_list = []
@@ -600,18 +519,7 @@ def message(update, context):
 
         if mes == "ліс":
             update.message.reply_text(f"{name} ти натрапив на {forest_monster_name}!")
-            # num = stats["agility"] // forest_monster["agility"]
-            # stats["strength"] * num
-            # forest_monster["endurancce"] - stats["strength"]
 
-            # num = forest_monster["agility"] // stats["agility"]
-            # stats["strength"] * num
-            # stats["endurance"] - forest_monster["strength"]
-
-            # if stats['endurance'] == 0:
-            #     update.message.reply_text("Ви програли.")
-            # elif forest_monster['endurance'] == 0:
-            #     update.message.reply_text("Ви виграли!")
         # ._.
     else:
         update.message.reply_text('У вас недостатньо енергії')
@@ -624,11 +532,6 @@ def add_points(update, context):
         name = update.message.from_user.username
         local_stats = {}
 
-        # for i in info['users']:
-        #     print(i)
-        #     if i['name'] == name:
-        #         [local_stats] = info['users'][i]
-        #         print(local_stats)
 
         for i in info['users']:
             if i['name'] == name:
@@ -656,6 +559,16 @@ def music(update, context):
 
 
 def callback(update, context):
+    name = update.message.from_user.username
+    local_stats = {}
+    with open('db.json', 'r') as db:
+        info = json.load(db)
+
+    for i in info['users']:
+        if i['name'] == name:
+            for k in i:
+                local_stats[k] = i[k]
+
     query = update.callback_query
     answer = query.data
 
@@ -671,6 +584,15 @@ def callback(update, context):
     # update.message.reply_text('hello11deadaf')
 
     def build_menu(buttons, n_cols, header_buttons=None, footer_buttons=None):
+        name = update.message.from_user.username
+        local_stats = {}
+        with open('db.json', 'r') as db:
+            info = json.load(db)
+
+        for i in info['users']:
+            if i['name'] == name:
+                for k in i:
+                    local_stats[k] = i[k]
 
         menu = [buttons[i:i + n_cols] for i in range(0, len(buttons), n_cols)]
         if header_buttons:
@@ -679,26 +601,7 @@ def callback(update, context):
             menu.append(footer_buttons)
         return menu
 
-    if energy > 10:
-        button_list = []
-        lis_horu = ["ліс", "гори"]
-
-        for i in lis_horu:
-            button_list.append(InlineKeyboardButton(i, callback_data=i))
-            reply_markup = InlineKeyboardMarkup(
-                build_menu(button_list, n_cols=1))  # n_cols = 1 is for single column and mutliple rows
-        update.message.reply_text('Куди ви хочете піти подорожувати сьогодні? ', reply_markup=reply_markup)
-
-    def build_menu(buttons, n_cols, header_buttons=None, footer_buttons=None):
-
-        menu = [buttons[i:i + n_cols] for i in range(0, len(buttons), n_cols)]
-        if header_buttons:
-            menu.insert(0, header_buttons)
-        if footer_buttons:
-            menu.append(footer_buttons)
-        return menu
-
-    if energy > 10:
+    if local_stats["energy"] > 10:
         button_list = []
         lis_horu = ["ліс", "гори"]
 
