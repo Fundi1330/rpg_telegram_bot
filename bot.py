@@ -2,6 +2,7 @@ from telegram.ext import *
 import json
 import random
 from telegram import *
+import sqlite3
 
 key = {}
 
@@ -16,7 +17,7 @@ key = read
 def start(update, context):
     name = update.message.from_user.username
 
-    stats = {"name": name, "strength": random.randint(1, 5), "agility": random.randint(2, 7), "endurance": random.randint(1, 9), "energy": 100, "health": 40}
+    stats = {"name": name, "strength": random.randint(1, 5), "agility": random.randint(2, 7), "endurance": random.randint(1, 9)}
 
     stats = {"name": name, "strength": random.randint(1, 5), "agility": random.randint(2, 7),
              "endurance": random.randint(1, 9),"stat_points":7, "energy": 100}
@@ -181,7 +182,9 @@ words_list = []
 user_move = True
 
 potion = 2
- 
+energy = 100
+user_health = 40
+stat_points = 7
 yes_list = []
  
 
@@ -240,37 +243,37 @@ def message(update, context):
         words_list.append(update.message.text)
  
 
-    if local_stats["stat_points"] > 0:
-        if mes == '1':
-            local_stats["strength"] += 1
-            local_stats["stat_points"] -= 1
-            for i in info['users']:
-                if i['name'] == name:
-                    for k in i:
-                        i[k] = local_stats[k]
+    # if local_stats["stat_points"] > 0:
+    #     if mes == '1':
+    #         local_stats["strength"] += 1
+    #         local_stats["stat_points"] -= 1
+    #         for i in info['users']:
+    #             if i['name'] == name:
+    #                 for k in i:
+    #                     i[k] = local_stats[k]
 
-                        with open("db.json", "w") as f:
-                            json.dump(info, f)
-        elif mes == '2':
-            local_stats["agility"] += 1
-            local_stats["stat_points"] -= 1
-            for i in info['users']:
-                if i['name'] == name:
-                    for k in i:
-                        i[k] = local_stats[k]
+    #                     with open("db.json", "w") as f:
+    #                         json.dump(info, f)
+    #     elif mes == '2':
+    #         local_stats["agility"] += 1
+    #         local_stats["stat_points"] -= 1
+    #         for i in info['users']:
+    #             if i['name'] == name:
+    #                 for k in i:
+    #                     i[k] = local_stats[k]
 
-                        with open("db.json", "w") as f:
-                            json.dump(info, f)
-        elif mes == '3':
-            local_stats["endurance"] += 1
-            local_stats["stat_points"] -= 1
-            for i in info['users']:
-                if i['name'] == name:
-                    for k in i:
-                        i[k] = local_stats[k]
+    #                     with open("db.json", "w") as f:
+    #                         json.dump(info, f)
+    #     elif mes == '3':
+    #         local_stats["endurance"] += 1
+    #         local_stats["stat_points"] -= 1
+    #         for i in info['users']:
+    #             if i['name'] == name:
+    #                 for k in i:
+    #                     i[k] = local_stats[k]
 
-                        with open("db.json", "w") as f:
-                            json.dump(info, f)
+    #                     with open("db.json", "w") as f:
+    #                         json.dump(info, f)
     else:
         update.message.reply_text('В тебе недостатньо скілл поінтів')
 
@@ -734,7 +737,7 @@ def message(update, context):
     else:
         update.message.reply_text('У вас недостатньо енергії')
 
- 
+
 
 def add_points(update, context):
         with open('db.json', 'r') as db:
@@ -899,7 +902,7 @@ def main():
     dp.add_handler(MessageHandler(filters=Filters.text, callback=message))
     # dp.add_handler(CallbackQueryHandler(callback_handler_Parara))
 
-    # dp.add_handler(CallbackQueryHandler(callback))
+    dp.add_handler(CallbackQueryHandler(callback))
 
     dp.add_error_handler(error)
     updater.start_polling()
