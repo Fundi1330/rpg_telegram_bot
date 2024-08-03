@@ -1,3 +1,7 @@
 {
-    "key": "5872412968:AAFChRcVkckV1ywEaejSKn_5S3ilHGj52ek"
+    "welcome_message": "Travel RPG Bot is a simple rpg bot",
+    "help_message": "Привіт👋, це Travel RPG Bot🏞\nЯкщо хочеш перевірити✅ свої характеристики пропиши /stat\nЯкщо хочеш додати➕ поінти до характеристик тоді пропиши /addpoints\nЩоб розпочати свою подорож🚊 пропиши /location\nЩоб дізнатися трохи більше😎 пропиши /start",
+    "assets_dir": "assets/",
+    "music_dir": "music/",
+    "database_path": "database/database.db"
 }

@@ -10,46 +10,6 @@ with open('config.json', 'r') as file:
 
 key = read
 
-# ---------------------------------------------------------------------------- #
-#                                 Example Text                                 #
-# ---------------------------------------------------------------------------- #
-def start(update, context):
-    name = update.message.from_user.username
-
-    stats = {"name": name, "strength": random.randint(1, 5), "agility": random.randint(2, 7), "endurance": random.randint(1, 9), "energy": 100, "health": 40}
-
-    stats = {"name": name, "strength": random.randint(1, 5), "agility": random.randint(2, 7),
-             "endurance": random.randint(1, 9),"stat_points":7, "energy": 100}
-
-    update.message.reply_text('Travel RPG Bot is a simple rpg bot')
-
-    with open('db.json') as f:
-        data = json.load(f)
-        data['users'].append(stats)
-        with open('db.json', 'w') as outfile:
-            json.dump(data, outfile)
-
-            random_img = random.randint(1, 2)
-            if random_img == 1:
-                random_img1 = random.randint(1, 2)
-                if random_img1 == 1:
-                    update.message.reply_photo(
-                        photo=open(r"C:\Users\User\Pictures\Saved Pictures\photo-1511117833895-4b473c0b85d6.jpg", "rb"))
-                else:
-                    update.message.reply_photo(
-                        photo=open(r"C:\Users\User\Pictures\Saved Pictures\Plane-taking-off-twilight-1024x684.jpg",
-                                   "rb"))
-            else:
-                random_img2 = random.randint(1, 2)
-                if random_img2 == 1:
-                    update.message.reply_photo(
-                        photo=open(r"C:\Users\User\Pictures\Saved Pictures\0x0.jpg", "rb"))
-                else:
-                    update.message.reply_photo(
-                        photo=open(r"C:\Users\User\Pictures\Saved Pictures\ss_2ecaeff42c548d1200668869a8767.jpg",
-                                   "rb"))
-
-
 #stat_points = 7
 
 
@@ -765,15 +725,6 @@ def location(update, context):
     update.message.reply_text('Куди ви хочете піти подорожувати сьогодні? Ліс/Гори')
 
 
-def music(update, context):
-    keyboard = [
-        [InlineKeyboardButton('Skyrim', callback_data='1')],
-        [InlineKeyboardButton('Black Wolwes Inn', callback_data='2')]
-    ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    update.message.reply_text('Вибери музику, яку хочеш слухати', reply_markup=reply_markup)
-
-
 def callback(update, context):
     query = update.callback_query
     answer = query.data
@@ -883,29 +834,3 @@ def help(update, context):
 \nЩоб розпочати свою подорож🚊 пропиши /location
 \nЩоб дізнатися трохи більше😎 пропиши /start 
 ''')
-
-
-# ._.
-def main():
-    updater = Updater(key['key'], use_context=True)
-    dp = updater.dispatcher
-
-    dp.add_handler(CommandHandler('start', start))
-    dp.add_handler(CommandHandler('stat', stat))
-    dp.add_handler(CommandHandler('help', help))
-    dp.add_handler(CommandHandler('addpoints', add_points))
-    dp.add_handler(CommandHandler('location', location))
-    dp.add_handler(CommandHandler('music', music))
-    dp.add_handler(MessageHandler(filters=Filters.text, callback=message))
-    # dp.add_handler(CallbackQueryHandler(callback_handler_Parara))
-
-    # dp.add_handler(CallbackQueryHandler(callback))
-
-    dp.add_error_handler(error)
-    updater.start_polling()
-    updater.idle()
-
-
-if __name__ == '__main__':
-    main()
-    print('Bot is started')
