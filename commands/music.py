@@ -25,7 +25,9 @@ async def music(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     reply_markup = InlineKeyboardMarkup(keyboard)
 
-    await context.bot.send_message(chat_id=update.effective_chat.id, text='Вибери музику, яку хочеш слухати', reply_markup=reply_markup)
+    select_music_message = current_config.get('select_music_message')
+
+    await context.bot.send_message(chat_id=update.effective_chat.id, text=select_music_message, reply_markup=reply_markup)
 
 async def music_query_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query

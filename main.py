@@ -1,7 +1,7 @@
 from telegram.ext import ApplicationBuilder,  CallbackQueryHandler, CommandHandler
 from os import environ
 import logging
-from commands import start, music, music_query_handler, help
+from commands import start, music, music_query_handler, help, stats
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -20,8 +20,10 @@ def main():
     start_handler = CommandHandler('start', start)
     help_handler = CommandHandler('help', help)
     music_handler = CommandHandler('music', music)
+    stats_handler = CommandHandler('stats', stats)
     music_callback_handler = CallbackQueryHandler(music_query_handler)
-    app.add_handlers([start_handler, music_handler, music_callback_handler, help_handler])
+    app.add_handlers([start_handler, music_handler, music_callback_handler, help_handler,
+                      stats_handler])
 
     app.run_polling()
 
