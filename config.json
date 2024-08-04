@@ -3,7 +3,10 @@
     "help_message": "Привіт👋, це TravelRPG Bot🏞\nЯкщо хочеш перевірити✅ свої характеристики пропиши /stat\nЯкщо хочеш додати➕ поінти до характеристик тоді пропиши /addpoints\nЩоб розпочати свою подорож🚊 пропиши /location\nЩоб дізнатися трохи більше😎 пропиши /start",
     "select_music_message": "Select the music you want to listen to🎶.",
     "stats_message": "📋Your characteristics:\n⚔️Strength: {strength}\n🏃‍♂️Agility: {agility}\n🍗Stamina: {stamina}\n⭐Stat points: {stat_points}\n⚡Energy: {energy}",
+    "first_name_message": "Please, enter your character's first name.",
+    "last_name_message": "Good! Now enter your character's last name.",
+    "after_auth_message": "Welcome, {name}, to the town!",
     "assets_dir": "assets/",
     "music_dir": "music/",
-    "database_path": "database/database.db"
+    "database_path": ":memory:"
 }

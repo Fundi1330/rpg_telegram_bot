@@ -6,7 +6,9 @@ class UserTable(BaseTable):
         CREATE TABLE IF NOT EXISTS user 
         (
             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
-            telegram_id INTEGER UNIQUE
+            telegram_id INTEGER UNIQUE,
+            first_name TEXT,
+            last_name TEXT
         )
         ''')
 
@@ -36,12 +38,12 @@ class UserTable(BaseTable):
                 ''', values)
 
     def update(self, telegram_id, **kwargs):
-        if not self.row_exists(telegram_id):
-            update_params = ' '.join([f'{k} = {v}' for k, v in kwargs.items()])
+        if self.row_exists(telegram_id):
+            update_params = ' '.join([f'{k} = "{v}"' for k, v in kwargs.items()])
             with self.connection:
                 self.cursor.execute(f'''
                     UPDATE user SET {update_params} WHERE telegram_id=:telegram_id
-                ''', telegram_id)
+                ''', [telegram_id])
 
     def delete(self, telegram_id) -> None:
         '''Delete tow from table'''
