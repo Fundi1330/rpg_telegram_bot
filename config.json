@@ -1,6 +1,6 @@
 {
-    "welcome_message": "Travel RPG Bot is a simple rpg bot",
-    "help_message": "Привіт👋, це Travel RPG Bot🏞\nЯкщо хочеш перевірити✅ свої характеристики пропиши /stat\nЯкщо хочеш додати➕ поінти до характеристик тоді пропиши /addpoints\nЩоб розпочати свою подорож🚊 пропиши /location\nЩоб дізнатися трохи більше😎 пропиши /start",
+    "welcome_message": "Hello and welcome to TravelRPG bot✈️! Here, you can play as an adventurer🗺️ traveling across different locations🚙, killing mobs⚔️, finding some loot🪙, upgrading yourself⬆️ and much more. Type /help for more info",
+    "help_message": "Привіт👋, це TravelRPG Bot🏞\nЯкщо хочеш перевірити✅ свої характеристики пропиши /stat\nЯкщо хочеш додати➕ поінти до характеристик тоді пропиши /addpoints\nЩоб розпочати свою подорож🚊 пропиши /location\nЩоб дізнатися трохи більше😎 пропиши /start",
     "select_music_message": "Select the music you want to listen to🎶.",
     "stats_message": "📋Your characteristics:\n⚔️Strength: {strength}\n🏃‍♂️Agility: {agility}\n🍗Stamina: {stamina}\n⭐Stat points: {stat_points}\n⚡Energy: {energy}",
     "assets_dir": "assets/",
