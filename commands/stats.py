@@ -1,4 +1,3 @@
-import random
 from telegram import Update
 from telegram.ext import ContextTypes
 from config import current_config

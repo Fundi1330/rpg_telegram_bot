@@ -21,7 +21,7 @@ async def music(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = []
     music_data = read_music_data()
     for title in music_data.keys():
-        keyboard.append([InlineKeyboardButton(title, callback_data=title)])
+        keyboard.append([InlineKeyboardButton(title, callback_data=f'm_{title}')])
 
     reply_markup = InlineKeyboardMarkup(keyboard)
 
@@ -29,12 +29,12 @@ async def music(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     await context.bot.send_message(chat_id=update.effective_chat.id, text=select_music_message, reply_markup=reply_markup)
 
-async def music_query_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def music_callback_query_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
 
     await query.answer()
 
-    music_title = query.data
+    music_title = query.data.removeprefix('m_')
 
     query_music = read_music_data().get(music_title)
 
