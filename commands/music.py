@@ -1,13 +1,13 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-from config import current_config
+from config import config
 from os import path
 from json import loads
 import logging
 from mutagen.mp3 import MP3
 
-music_path = path.join(current_config.get('assets_dir'), current_config.get('music_dir'))
+music_path = path.join(config.assets_dir, config.music_dir)
 music_data_path = path.join(music_path, 'data.json')
 
 def read_music_data():
@@ -25,7 +25,7 @@ async def music(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     reply_markup = InlineKeyboardMarkup(keyboard)
 
-    select_music_message = current_config.get('select_music_message')
+    select_music_message = config.select_music_message
 
     await context.bot.send_message(chat_id=update.effective_chat.id, text=select_music_message, reply_markup=reply_markup)
 

@@ -1,0 +1,19 @@
+welcome_message: Hello and welcome to TravelRPG bot✈️! Here, you can play as an adventurer🗺️ traveling across different locations🚙, killing mobs⚔️, finding some loot🪙, upgrading yourself⬆️ and much more. Type /help for more info
+help_message: Привіт👋, це TravelRPG Bot🏞\nЯкщо хочеш перевірити✅ свої характеристики пропиши /stat\nЯкщо хочеш додати➕ поінти до характеристик тоді пропиши /addpoints\nЩоб розпочати свою подорож🚊 пропиши /location\nЩоб дізнатися трохи більше😎 пропиши /start
+select_music_message: Select the music you want to listen to🎶.
+stats_message: |
+  📋Your characteristics
+  ⚔️Strength: {strength}
+  🏃‍♂️Agility: {agility}
+  🍗Stamina: {stamina}
+  ⭐Stat points: {stat_points}
+  ⚡Energy: {energy}
+first_name_message: Please, enter your character's first name.
+last_name_message: Good! Now enter your character's last name.
+after_auth_message: Welcome, {name}, to the town!
+wrong_part_of_fullname_message: Your first and last names must start with 1 upper case and have at least 2 lower case letters. Please type it again
+select_action_in_town_message: Select action you want to do here!
+board_message: I will write detailed guide soon!
+
+assets_dir: assets/
+music_dir: music/

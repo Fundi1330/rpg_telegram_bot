@@ -1,6 +1,6 @@
 from telegram import Update
 from telegram.ext import ContextTypes
-from config import current_config
+from config import config
 from database.utils import User
 
 async def stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -8,7 +8,7 @@ async def stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     user_stats = User.get_stats(user_id)
 
-    stats_message: str = current_config.get('stats_message').format(
+    stats_message: str = config.stats_message.format(
         strength=user_stats[2], agility=user_stats[3], stamina=user_stats[4], 
         stat_points=user_stats[5], energy=user_stats[6]
     )
